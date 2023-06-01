@@ -1,0 +1,80 @@
+.project-detail {
+  .wrap {
+    display: flex;
+    flex-wrap: wrap;
+
+    .detail {
+      width: 67%;
+      img {
+        width: 100%;
+        display: block;
+      }
+    }
+    .side-bar {
+      padding: 40px;
+      position: fixed;
+      height: 100vh;
+      top: 0;
+      right: 0;
+      width: 33%;
+      background-color: black;
+      &__head {
+        .back {
+          width: 40px;
+          height: 40px;
+          display: block;
+          background-color: var(--color-primary);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 100%;
+          line-height: 1;
+          transition: all ease 0.5s;
+          cursor: pointer;
+          margin-bottom: 40px;
+          &:hover {
+            opacity: 0.8;
+          }
+        }
+      }
+      &__body {
+        .tech-stalk {
+          width: 100%;
+          margin-bottom: 20px;
+          span {
+            display: inline-block;
+            margin-right: 12px;
+            font-size: clamp(20px, 2vw, 24px);
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+          }
+        }
+        .project-name {
+          font-size: clamp(22px, 4vw, 36px);
+          font-weight: 700;
+          color: var(--color-primary);
+          margin-bottom: 0.2em;
+          font-family: var(--font-secondary);
+        }
+        .description {
+          font-size: clamp(16px, 4vw, 18px);
+          margin-bottom: 2em;
+        }
+        .visit-page {
+          display: inline-block;
+          padding: 12px 48px;
+          border-radius: 50px;
+          color: white;
+          background-image: linear-gradient(-45deg, #1593e3, #5918df);
+          transition: all ease 1s;
+          text-decoration: none;
+          &:hover {
+            cursor: pointer;
+            box-shadow: 0 0 40px 0 rgba(#1593e3, 1),
+              inset 0 0 40px 0 rgba(white, 1);
+          }
+        }
+      }
+    }
+  }
+}

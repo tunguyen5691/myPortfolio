@@ -1,0 +1,30 @@
+@import "fonts";
+@import "setup";
+@import "variables";
+@import "reset";
+
+body {
+  font-family: var(--font-primary);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-base);
+  font-weight: 400;
+  background-color: black;
+}
+
+textarea,
+input.plain-text, /* this is a class */
+input[type="text"],
+input[type="button"],
+input[type="submit"],
+input[type=”email”],
+input[type=”tel”],
+input[type=”number”],
+.input-radio-checkbox {
+  /* this is a class */
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+
+section {
+}
