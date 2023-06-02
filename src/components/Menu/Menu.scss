@@ -1,8 +1,6 @@
 .menu {
     position: fixed;
     width: 100%;
-    height: 100%;
-    background-color:var(--color-main);
     transition: all ease 0.5s;
     z-index: 1000 !important;
     &.left {
@@ -27,48 +25,52 @@
             top: 0;
         }
     }
+    &.active {
+        background-color: rgba(#5918df, 0.2);
+    }
     .wrapper {
-        max-width: 768px;
         margin: auto;
-        padding: 20px;
-        .head {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 40px;
-        }
-        .info {
-            display: flex;
-            align-items: center;
-            .meta {
-                width: calc(100% - 60px);
-                padding-left: 16px;
-                .main {
-                    text-align: left;
-                    margin-bottom: 10px;
-                }
-                .sub {
-                    font-size: 14px;
-                }
-                
-            }
-        }
+        padding: 0 2em;
+        max-width: 2048px;
         ul {
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: flex-end;
             li {
-                a {
-                    font-size: 16px;
-                    text-decoration: none;
-                    padding: 20px;
+                font-size: clamp(20px, 1vw, 26px);
+                text-decoration: none;
+                display: block;
+                padding: 1em 0;
+                text-align: left;
+                color: white;
+                transition: ease 0.5s all;
+                position: relative;
+                margin-left: 3em;
+                &::before {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    // background-color: var(--color-primary);
                     display: block;
-                    text-align: left;
-                    color: white;
+                    content: "";
+                    width: 0;
+                    height: 2px;
+                    transition: ease 0.5s all;
+                    background-color: white;
+                }
+                &:hover,
+                &.active {
+                    &::before {
+                        width: 100%;
+                    }
+                    cursor: pointer;
+                    // color: var(--color-primary);
                 }
             }
         }
         .isDesktop {
             display: none;
         }
-      
     }
 }
