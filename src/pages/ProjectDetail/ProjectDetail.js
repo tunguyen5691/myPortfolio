@@ -6,6 +6,7 @@ import projectState from "../../store/projectState";
 import "./ProjectDetail.scss";
 const ProjectDetail = (props) => {
     const projectData = useRecoilValue(projectState);
+
     const navigate = useNavigate();
     return (
         <div className=" project-detail">

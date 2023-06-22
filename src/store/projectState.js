@@ -45,7 +45,6 @@ const projectData = atom({
                 time: "12-12-2022 - 12-02-203",
                 workingDay: "4",
                 type: "website",
-
                 thumb: thumb1,
                 fullImg: fullImg,
             },

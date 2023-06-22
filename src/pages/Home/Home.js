@@ -17,8 +17,25 @@ function Home() {
     const [contact, setContact] = useState(false);
     const [projectData, setProjectData] = useRecoilState(projectState);
 
+    const [sortOrder, setSortOrder] = useState("true");
+
+    const handleSort = () => {
+        setSortOrder(!sortOrder);
+        const newList = [...projectData.list];
+        if (sortOrder == true) {
+            newList.sort((a, b) => a.name.localeCompare(b.name));
+        } else {
+            newList.sort((a, b) => b.name.localeCompare(a.name));
+        }
+        let newprojectData = { ...projectData };
+        newprojectData.list = newList;
+        setProjectData(newprojectData);
+    };
+
     const handleClick = (item) => {
-        setProjectData({ ...projectData, selected: item });
+        const newprojectData = { ...projectData };
+        newprojectData.selected = item;
+        setProjectData(newprojectData);
         navigate(`/detail`);
     };
 
@@ -37,6 +54,9 @@ function Home() {
     }, []);
     return (
         <>
+            <div className="sort" onClick={() => handleSort()}>
+                sort
+            </div>
             <Menu />
             <div className="page home">
                 {/* <section id="start">
@@ -306,7 +326,7 @@ function Home() {
                             </div>
                         </div>
                     </div>
-                    {/* <div className="row">
+                    <div className="row">
                         <div className="list-project-type left ">
                             <div className="wrap">
                                 <span>MOBILE</span>
@@ -317,16 +337,17 @@ function Home() {
                             <div className="wrap">
                                 <div className="list-project">
                                     <div className="list-project-wrap list-project__mobile">
-                                        {list
+                                        {projectData.list
                                             .filter((item) => item.type.includes("mobile"))
                                             .map((item, index) => (
                                                 <div className="item" key={item.id}>
                                                     <Project
+                                                        isMobile
                                                         thumbImg={item.thumb}
                                                         name={item.name}
                                                         description={item.description}
                                                         timetime={item.time}
-                                                        isMobile
+                                                        onClick={() => handleClick(item)}
                                                     />
                                                 </div>
                                             ))}
@@ -346,7 +367,7 @@ function Home() {
                             <div className="wrap">
                                 <div className="list-project ">
                                     <div className="list-project-wrap list-project__webs">
-                                        {list
+                                        {projectData.list
                                             .filter((item) => item.type.includes("landing"))
                                             .map((item, index) => (
                                                 <div className="item" key={item.id}>
@@ -355,6 +376,7 @@ function Home() {
                                                         name={item.name}
                                                         description={item.description}
                                                         timetime={item.time}
+                                                        onClick={() => handleClick(item)}
                                                     />
                                                 </div>
                                             ))}
@@ -362,7 +384,7 @@ function Home() {
                                 </div>
                             </div>
                         </div>
-                    </div> */}
+                    </div>{" "}
                 </section>
                 <section id="contact">
                     <div className="content-w size-md">
