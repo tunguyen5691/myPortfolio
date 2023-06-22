@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-
+import { BrowserRouter } from "react-router-dom";
 import { RecoilRoot } from "recoil";
-import Home from "./pages/Home/Home";
-import ProjectDetail from "./pages/ProjectDetail/ProjectDetail";
+import AnimateRoutes from "./components/animateRoutes/animateRoutes";
 
 const App = () => {
     const [isMenuOpen, SetMenuOpen] = useState(false);
@@ -30,10 +28,7 @@ const App = () => {
             <BrowserRouter>
                 <div className="container ">
                     <div className="page-content App">
-                        <Routes>
-                            <Route index element={<Home />} />
-                            <Route path={"detail"} element={<ProjectDetail />} />
-                        </Routes>
+                        <AnimateRoutes />
                     </div>
                 </div>
             </BrowserRouter>

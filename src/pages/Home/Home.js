@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
-import glitch from "../../assets/images/1.jpg";
-import { useSetRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import email from "../../assets/images/email.png";
 import phone from "../../assets/images/phone.png";
-import Project from "../../components/Project/Project";
-import { TypeAnimation } from "react-type-animation";
-import "./Home.scss";
-import { Link, useNavigate } from "react-router-dom";
 import Menu from "../../components/Menu/Menu";
-import { useRecoilState } from "recoil";
-// import { projectList } from "../../app";
+import Project from "../../components/Project/Project";
+import "./Home.scss";
+import { motion } from "framer-motion";
+
 import projectState from "../../store/projectState";
 
 function Home() {
@@ -53,7 +51,13 @@ function Home() {
         window.addEventListener("scroll", onScroll);
     }, []);
     return (
-        <>
+        <motion.div
+            inherit={{
+                opacity: 0,
+            }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.1 } }}
+        >
             <div className="sort" onClick={() => handleSort()}>
                 sort
             </div>
@@ -408,7 +412,7 @@ function Home() {
                     </div>
                 </section>
             </div>
-        </>
+        </motion.div>
     );
 }
 

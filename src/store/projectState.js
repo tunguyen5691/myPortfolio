@@ -1,10 +1,10 @@
 import { atom } from "recoil";
 
+import fullImg from "../assets/images/fullImg.png";
 import thumb1 from "../assets/images/thumb1.jpg";
 import thumb2 from "../assets/images/thumb2.jpg";
 import thumbMb from "../assets/images/thumbmb.jpg";
 import thumbMb2 from "../assets/images/thumbmb2.jpg";
-import fullImg from "../assets/images/fullImg.png";
 
 const projectData = atom({
     key: "projectData",
