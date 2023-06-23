@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./animateRoutes.scss";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Home from "../../pages/Home/Home";
@@ -7,6 +7,9 @@ import { AnimatePresence } from "framer-motion";
 
 export default function AnimateRoutes({}) {
     const location = useLocation();
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    });
     return (
         <AnimatePresence>
             <Routes location={location} key={location.pathname}>

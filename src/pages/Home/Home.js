@@ -1,16 +1,93 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import email from "../../assets/images/email.png";
 import phone from "../../assets/images/phone.png";
+import glitch from "../../assets/images/1.jpg";
 import Menu from "../../components/Menu/Menu";
 import Project from "../../components/Project/Project";
 import "./Home.scss";
-import { motion } from "framer-motion";
+import { color, motion } from "framer-motion";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import projectState from "../../store/projectState";
+import { TypeAnimation } from "react-type-animation";
 
 function Home() {
+    const ref = useRef(null);
+    gsap.registerPlugin(ScrollTrigger);
+    useLayoutEffect(() => {
+        let ctx = gsap.context(() => {
+            // use scoped selectors
+            gsap.from("#start", {
+                scrollTrigger: {
+                    trigger: "#start",
+                    start: " 50% 50%",
+                    end: "+=100%",
+                    onLeave: () => {
+                        document.querySelector(".start").classList.remove("active");
+                    },
+                    onEnterBack: () => {
+                        document.querySelector(".start").classList.add("active");
+                    },
+                },
+            });
+            gsap.from("#about", {
+                scrollTrigger: {
+                    trigger: "#about",
+                    start: " top 50%",
+                    end: "+=100%",
+                    onLeave: () => {
+                        document.querySelector(".about").classList.remove("active");
+                    },
+                    onLeaveBack: () => {
+                        document.querySelector(".about").classList.remove("active");
+                    },
+                    onEnter: () => {
+                        document.querySelector(".about").classList.add("active");
+                    },
+                    onEnterBack: () => {
+                        document.querySelector(".about").classList.add("active");
+                    },
+                },
+            });
+            gsap.from("#projects", {
+                scrollTrigger: {
+                    trigger: "#projects",
+                    start: " top 50%",
+                    end: "bottom bottom",
+                    onLeave: () => {
+                        document.querySelector(".projects").classList.remove("active");
+                    },
+                    onLeaveBack: () => {
+                        document.querySelector(".projects").classList.remove("active");
+                    },
+                    onEnter: () => {
+                        document.querySelector(".projects").classList.add("active");
+                    },
+                    onEnterBack: () => {
+                        document.querySelector(".projects").classList.add("active");
+                    },
+                },
+            });
+            gsap.from("#contact", {
+                scrollTrigger: {
+                    trigger: "#contact",
+                    start: " bottom 20%",
+                    end: "bottom bottom",
+
+                    onLeaveBack: () => {
+                        document.querySelector(".contact").classList.remove("active");
+                    },
+                    onEnter: () => {
+                        document.querySelector(".contact").classList.add("active");
+                    },
+                },
+            });
+        }, ref);
+        return () => ctx.revert();
+    }, []);
     const navigate = useNavigate();
     const [contact, setContact] = useState(false);
     const [projectData, setProjectData] = useRecoilState(projectState);
@@ -50,6 +127,18 @@ function Home() {
     useEffect(() => {
         window.addEventListener("scroll", onScroll);
     }, []);
+
+    const getOffset = () => {
+        const header = document.querySelector(".menu");
+        if (window.scrollY > 50) {
+            header.classList.add("active");
+        } else {
+            header.classList.remove("active");
+        }
+    };
+    useEffect(() => {
+        window.addEventListener("scroll", getOffset);
+    }, []);
     return (
         <motion.div
             inherit={{
@@ -58,12 +147,12 @@ function Home() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.1 } }}
         >
-            <div className="sort" onClick={() => handleSort()}>
+            {/* <div className="sort" onClick={() => handleSort()}>
                 sort
-            </div>
+            </div> */}
             <Menu />
-            <div className="page home">
-                {/* <section id="start">
+            <div className="page home" ref={ref}>
+                <section id="start">
                     <div className="content-w size-md">
                         <div className="wrap">
                             <div className="block">
@@ -104,9 +193,9 @@ function Home() {
                             </div>
                         </div>
                     </div>
-                </section> */}
+                </section>
 
-                {/* <section id="about">
+                <section id="about">
                     <div className="content-w size-md">
                         <div className="wrap pt-60 pb-60">
                             <div className="timeline"></div>
@@ -292,15 +381,9 @@ function Home() {
                             </div>
                         </div>
                     </div>
-                </section> */}
+                </section>
                 <section id="projects" className=" pb-60 ">
                     <div className="row">
-                        <div className="list-project-type right ">
-                            <div className="wrap">
-                                <span>WEBSITE</span>
-                                <span>WEBSITE</span>
-                            </div>
-                        </div>
                         <div className="content-w size-md">
                             <div className="wrap pt-60">
                                 <div className="timeline"></div>
@@ -309,6 +392,12 @@ function Home() {
                                 </div>
                                 <div className="block-description mb-60">
                                     <span>Landing Pages, Websites ...</span>
+                                </div>
+                                <div className="list-project-type right ">
+                                    <div className="wrap">
+                                        <span>WEBSITE</span>
+                                        <span>WEBSITE</span>
+                                    </div>
                                 </div>
                                 <div className="list-project ">
                                     <div className="list-project-wrap list-project__webs">

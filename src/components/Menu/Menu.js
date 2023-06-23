@@ -40,7 +40,7 @@ export default function Menu({ position, open, onClick }) {
                 <ul>
                     {MenuItem.map((item, index) => (
                         <li
-                            className={` ${active == index ? "active" : ""} `}
+                            className={`${item.id} ${active == index ? "active" : ""} `}
                             key={item.id}
                             onClick={() => scrollToSection(item.id, index)}
                         >

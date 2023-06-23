@@ -27,6 +27,9 @@
     }
     &.active {
         background-color: rgba(#5918df, 0.2);
+        @media (width < 768px) {
+            background-color: rgba(#5918df, 1);
+        }
     }
     .wrapper {
         margin: auto;
@@ -37,8 +40,11 @@
             padding: 0;
             display: flex;
             justify-content: flex-end;
+            @media (width < 768px) {
+                justify-content: space-between;
+            }
             li {
-                font-size: clamp(20px, 1vw, 26px);
+                font-size: 1.125em;
                 text-decoration: none;
                 display: block;
                 padding: 1em 0;
@@ -47,6 +53,11 @@
                 transition: ease 0.5s all;
                 position: relative;
                 margin-left: 3em;
+                @media (width < 768px) {
+                    margin-left: 0;
+                    font-size: 1.125em;
+                    padding: 0.75em 0;
+                }
                 &::before {
                     position: absolute;
                     bottom: 0;

@@ -1,15 +1,16 @@
+import { motion } from "framer-motion";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import fullImg from "../../assets/images/fullImg.png";
 import projectState from "../../store/projectState";
 import "./ProjectDetail.scss";
-import { motion } from "framer-motion";
 
 const ProjectDetail = (props) => {
     const projectData = useRecoilValue(projectState);
 
     const navigate = useNavigate();
+
     return (
         <motion.div
             inherit={{
@@ -21,9 +22,6 @@ const ProjectDetail = (props) => {
             <div className=" project-detail">
                 <div className="content-w ">
                     <div className="wrap">
-                        <div className="bl detail">
-                            <img src={fullImg} />
-                        </div>
                         <div className="side-bar">
                             <div className="side-bar__head">
                                 <div className="back" onClick={() => navigate(-1)}>
@@ -42,6 +40,9 @@ const ProjectDetail = (props) => {
                                     Visit Live
                                 </Link>
                             </div>
+                        </div>
+                        <div className="bl detail">
+                            <img src={fullImg} />
                         </div>
                     </div>
                 </div>

@@ -4,12 +4,15 @@
 @import "reset";
 
 body {
-  font-family: var(--font-primary);
-  font-size: 16px;
-  line-height: 1.5;
-  color: var(--color-base);
-  font-weight: 400;
-  background-color: black;
+    font-family: var(--font-primary);
+    font-size: clamp(18px, 1vw, 22px);
+    line-height: 1.5;
+    color: var(--color-base);
+    font-weight: 400;
+    background-color: black;
+    @media (width: 768px) {
+        font-size: 16px;
+    }
 }
 
 textarea,
@@ -21,9 +24,9 @@ input[type=”email”],
 input[type=”tel”],
 input[type=”number”],
 .input-radio-checkbox {
-  /* this is a class */
-  -webkit-appearance: none;
-  border-radius: 0;
+    /* this is a class */
+    -webkit-appearance: none;
+    border-radius: 0;
 }
 
 section {
