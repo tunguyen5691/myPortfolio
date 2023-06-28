@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import React from "react";
+import { color, motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import fullImg from "../../assets/images/fullImg.png";
@@ -7,10 +7,14 @@ import projectState from "../../store/projectState";
 import "./ProjectDetail.scss";
 
 const ProjectDetail = (props) => {
-    const projectData = useRecoilValue(projectState);
-
+    // const projectData = useRecoilValue(projectState);
     const navigate = useNavigate();
 
+    const [dataDetail, setDatadetail] = useState();
+    useEffect(() => {
+        const local = localStorage.getItem("selected");
+        setDatadetail(JSON.parse(local));
+    }, []);
     return (
         <motion.div
             inherit={{
@@ -34,8 +38,8 @@ const ProjectDetail = (props) => {
                                     <span>#jQuery</span>
                                     <span>#Scss</span>
                                 </div>
-                                <div className="project-name">{projectData?.selected?.name}</div>
-                                <div className="description">{projectData?.selected?.description}</div>
+                                <div className="project-name">{dataDetail?.name}</div>
+                                <div className="description">{dataDetail?.description}</div>
                                 <Link className="visit-page" to={"./"} target="_blank">
                                     Visit Live
                                 </Link>

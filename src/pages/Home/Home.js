@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
+import React, { useEffect, useState, useRef, useLayoutEffect, cloneElement } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import email from "../../assets/images/email.png";
@@ -91,7 +91,6 @@ function Home() {
     const navigate = useNavigate();
     const [contact, setContact] = useState(false);
     const [projectData, setProjectData] = useRecoilState(projectState);
-
     const [sortOrder, setSortOrder] = useState("true");
 
     const handleSort = () => {
@@ -107,13 +106,16 @@ function Home() {
         setProjectData(newprojectData);
     };
 
-    const handleClick = (item) => {
-        const newprojectData = { ...projectData };
-        newprojectData.selected = item;
-        setProjectData(newprojectData);
-        navigate(`/detail`);
+    const storeToLocalStorage = (key, value) => {
+        localStorage.setItem("selected", JSON.stringify(value));
     };
 
+    const handleClick = (item) => {
+        const newprojectData = { ...projectData };
+        navigate(`/detail`);
+        console.log("item", item);
+        storeToLocalStorage("selected", item);
+    };
     const handleContacttoggle = () => {
         setContact(!contact);
     };
