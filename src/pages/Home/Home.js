@@ -143,7 +143,7 @@ function Home() {
     }, []);
     return (
         <motion.div
-            inherit={{
+            initial={{
                 opacity: 0,
             }}
             animate={{ opacity: 1 }}
