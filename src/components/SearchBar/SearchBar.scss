@@ -1,0 +1,87 @@
+.Search-bar {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    form {
+        height: 50px;
+        position: relative;
+        display: flex;
+        border: 1px solid white;
+        transition: background-color ease 0.5s, width ease 0.5s 0.3s;
+        align-items: center;
+        width: max-content;
+        justify-content: flex-end;
+        width: 50px;
+        border-radius: 50px;
+        overflow: hidden;
+
+        &.active {
+            width: 600px;
+            background-color: white;
+            input {
+                width: calc(100% - 50px);
+                padding: 0 20px 0 30px;
+            }
+        }
+        input {
+            width: 0;
+            height: 50px;
+            background-color: transparent;
+            border: none;
+            z-index: 2;
+            outline: none;
+            color: var(--color-primary);
+            font-size: 1em;
+            padding: 0;
+            transition: all ease 0.5s 0.3s;
+            &::-webkit-search-cancel-button {
+                display: none;
+            }
+            &::-webkit-input-placeholder {
+                /* Chrome/Opera/Safari */
+                color: rbga(0, 0, 0, 0.4);
+            }
+            &::-moz-placeholder {
+                /* Firefox 19+ */
+                color: rbga(0, 0, 0, 0.4);
+            }
+            &:-ms-input-placeholder {
+                /* IE 10+ */
+                color: rbga(0, 0, 0, 0.4);
+            }
+            &:-moz-placeholder {
+                /* Firefox 18- */
+                color: rbga(0, 0, 0, 0.4);
+            }
+        }
+        .search-ic {
+            z-index: 3;
+            width: 20px;
+            transition: all ease 0.5s 0.2s;
+            width: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            img {
+                transition: all ease 0.5s;
+                width: 20px;
+            }
+            &:hover {
+                img {
+                    cursor: pointer;
+                    transform: scale(1.1);
+                }
+            }
+        }
+        .s-line {
+            width: 100%;
+            height: 2px;
+            display: block;
+            background-color: var(--color-primary);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            transition: all ease 0.5s;
+        }
+    }
+}

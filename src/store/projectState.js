@@ -20,7 +20,6 @@ const projectData = atom({
                 time: "12-12-2022 - 12-02-203",
                 workingDay: "4",
                 type: "mobile",
-
                 thumb: thumbMb,
                 fullImg: fullImg,
             },
@@ -134,6 +133,78 @@ const projectData = atom({
             },
             {
                 id: 11,
+                name: "MOBIFONE",
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                textstalk: ["jQuery", "HTML", "scss"],
+                time: "12-12-2022 - 12-02-203",
+                workingDay: "4",
+                type: "landing",
+                thumb: thumb1,
+                fullImg: fullImg,
+            },
+            {
+                id: 12,
+                name: "SUN GROUP",
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                textstalk: ["jQuery", "HTML", "scss"],
+                time: "12-12-2022 - 12-02-203",
+                workingDay: "4",
+                type: "landing",
+                thumb: thumb1,
+                fullImg: fullImg,
+            },
+            {
+                id: 13,
+                name: "ONSEN",
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                textstalk: ["jQuery", "HTML", "scss"],
+                time: "12-12-2022 - 12-02-203",
+                workingDay: "4",
+                type: "website",
+                thumb: thumb1,
+                fullImg: fullImg,
+            },
+            {
+                id: 14,
+                name: "MOBIFONE",
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                textstalk: ["jQuery", "HTML", "scss"],
+                time: "12-12-2022 - 12-02-203",
+                workingDay: "4",
+                type: "landing",
+                thumb: thumb1,
+                fullImg: fullImg,
+            },
+            {
+                id: 15,
+                name: "SUN GROUP",
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                textstalk: ["jQuery", "HTML", "scss"],
+                time: "12-12-2022 - 12-02-203",
+                workingDay: "4",
+                type: "landing",
+                thumb: thumb1,
+                fullImg: fullImg,
+            },
+            {
+                id: 16,
+                name: "ONSEN",
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                textstalk: ["jQuery", "HTML", "scss"],
+                time: "12-12-2022 - 12-02-203",
+                workingDay: "4",
+                type: "website",
+                thumb: thumb1,
+                fullImg: fullImg,
+            },
+            {
+                id: 17,
                 name: "MOBIFONE",
                 description:
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
