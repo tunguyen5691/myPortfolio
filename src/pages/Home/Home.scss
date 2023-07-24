@@ -365,6 +365,24 @@
         display: none;
     }
 }
+.all-projects-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    span {
+        transition: all ease 0.5s;
+        font-size: 1em;
+        text-decoration: underline;
+        letter-spacing: 2px;
+        font-weight: 400;
+        opacity: 0.6;
+        &:hover {
+            cursor: pointer;
+            opacity: 1;
+            letter-spacing: 4px;
+        }
+    }
+}
 .list-project {
     width: 140%;
     margin-left: -20%;

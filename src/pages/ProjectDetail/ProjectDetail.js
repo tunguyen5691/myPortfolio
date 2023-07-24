@@ -18,12 +18,12 @@ const ProjectDetail = (props) => {
     return (
         <motion.div
             initial={{
-                opacity: 0,
                 x: "100%",
+                // float: true,
                 transition: { duration: 0.7 },
             }}
-            animate={{ opacity: 1, x: "0", transition: { duration: 0.7 } }}
-            exit={{ opacity: 0, x: "100%", transition: { duration: 0.7 } }}
+            animate={{ x: "0", transition: { duration: 0.7 } }}
+            exit={{ x: "100%", transition: { duration: 0.7 } }}
         >
             <div className=" project-detail">
                 <div className="content-w ">
@@ -41,6 +41,7 @@ const ProjectDetail = (props) => {
                                     <span>#Scss</span>
                                 </div>
                                 <div className="project-name">{dataDetail?.name}</div>
+                                <div className="time">{dataDetail?.time}</div>
                                 <div className="description">{dataDetail?.description}</div>
                                 <Link className="visit-page" to={"./"} target="_blank">
                                     Visit Live

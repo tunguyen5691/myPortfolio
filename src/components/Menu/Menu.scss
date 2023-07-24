@@ -3,28 +3,30 @@
     width: 100%;
     transition: all ease 0.5s;
     z-index: 1000 !important;
-    &.left {
-        top: 0;
-        left: -100%;
-        &.active {
-            left: 0%;
-        }
-    }
-    &.right {
-        top: 0;
-        right: -100%;
-        &.active {
-            right: 0%;
-        }
-    }
-    &.top {
-        top: -100%;
-        left: 0;
-        width: 100%;
-        &.active {
-            top: 0;
-        }
-    }
+    top: 0;
+    left: 0;
+    // &.left {
+    //     top: 0;
+    //     left: -100%;
+    //     &.active {
+    //         left: 0%;
+    //     }
+    // }
+    // &.right {
+    //     top: 0;
+    //     right: -100%;
+    //     &.active {
+    //         right: 0%;
+    //     }
+    // }
+    // &.top {
+    //     top: -100%;
+    //     left: 0;
+    //     width: 100%;
+    //     &.active {
+    //         top: 0;
+    //     }
+    // }
     &.active {
         background-color: rgba(#5918df, 0.2);
         @media (width < 768px) {

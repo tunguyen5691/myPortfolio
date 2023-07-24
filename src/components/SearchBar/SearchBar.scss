@@ -14,13 +14,19 @@
         width: 50px;
         border-radius: 50px;
         overflow: hidden;
-
+        @media (width< 767px) {
+            width: 40px;
+            height: 40px;
+        }
         &.active {
             width: 600px;
             background-color: white;
             input {
                 width: calc(100% - 50px);
                 padding: 0 20px 0 30px;
+                @media (width < 767px) {
+                    padding: 0 0 0 20px;
+                }
             }
         }
         input {
@@ -34,6 +40,9 @@
             font-size: 1em;
             padding: 0;
             transition: all ease 0.5s 0.3s;
+            @media (width< 767px) {
+                font-size: 0.875em;
+            }
             &::-webkit-search-cancel-button {
                 display: none;
             }

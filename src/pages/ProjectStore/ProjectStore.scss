@@ -1,17 +1,39 @@
 .project-store {
-    padding-top: 60px;
-
     .search {
         width: 40%;
         position: fixed;
         top: 20px;
         right: 20px;
         z-index: 222;
+        @media (width < 767px) {
+            width: 100%;
+            right: 0;
+            padding: 20px;
+            top: 0;
+            box-sizing: border-box;
+        }
     }
     .title {
-        font-size: 2em;
-        text-align: center;
-        font-weight: bold;
+        aspect-ratio: 19/5;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        background-color: var(--color-primary);
+        .text {
+            font-size: 8em;
+            line-height: 0.7;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: black;
+            transform: translateY(12px);
+            @media (width < 1600px) {
+                font-size: 6em;
+            }
+            @media (width < 767px) {
+                font-size: 2.5em;
+                line-height: 1.1;
+            }
+        }
     }
     .tab-panel {
         position: relative;
@@ -24,6 +46,12 @@
         display: flex;
         justify-content: center;
         z-index: 22;
+        @media (width < 767px) {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            width: 100%;
+        }
         .panel {
             font-size: 1em;
             padding: 10px 20px;
@@ -31,6 +59,15 @@
             margin: 0 8px;
             transition: all ease 0.5s;
             background-color: transparent;
+            @media (width < 767px) {
+                font-size: 0.75em;
+                text-align: center;
+                margin: 0;
+                border-radius: 0;
+                padding: 10px;
+                width: 33.33%;
+                background-color: rgba(#5918df, 0.5);
+            }
             &:hover,
             &.active {
                 cursor: pointer;
@@ -39,7 +76,11 @@
         }
     }
     .tabs {
-        padding-bottom: 100px;
+        padding-bottom: 140px;
+        padding-top: 40px;
+        @media (width < 767px) {
+            padding-top: 10px;
+        }
         .tab-content {
             padding: 20px;
             border-radius: 4px;
