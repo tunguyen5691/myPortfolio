@@ -19,6 +19,9 @@
         align-items: flex-end;
         justify-content: center;
         background-color: var(--color-primary);
+        @media (width < 767px) {
+            aspect-ratio: 2;
+        }
         .text {
             font-size: 8em;
             line-height: 0.7;
