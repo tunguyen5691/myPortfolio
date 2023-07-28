@@ -1,11 +1,6 @@
+import { color, motion } from "framer-motion";
 import React, { useState } from "react";
 import "./Menu.scss";
-import { Link, NavLink } from "react-router-dom";
-import Avata from "../Avata/Avata";
-import Logo from "../Logo/Logo";
-import logo from "../../assets/images/logo.png";
-import close from "../../assets/images/close.png";
-import Icon from "../Icon/Icon";
 
 const MenuItem = [
     {
@@ -35,7 +30,18 @@ export default function Menu({ position, open, onClick }) {
         });
     };
     return (
-        <div className={`menu ${position} ${open}`}>
+        <motion.div
+            className={`menu ${position} ${open}`}
+            initial={{
+                y: "-100%",
+            }}
+            animate={{
+                y: "0",
+            }}
+            transition={{
+                delay: 2,
+            }}
+        >
             <div className="wrapper">
                 <ul>
                     {MenuItem.map((item, index) => (
@@ -49,6 +55,6 @@ export default function Menu({ position, open, onClick }) {
                     ))}
                 </ul>
             </div>
-        </div>
+        </motion.div>
     );
 }

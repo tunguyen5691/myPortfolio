@@ -15,16 +15,29 @@ const ProjectDetail = (props) => {
         const local = localStorage.getItem("selected");
         setDatadetail(JSON.parse(local));
     }, []);
+
+    const pageVariants = {
+        from: {
+            opacity: 0,
+            y: 40,
+        },
+        to: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.5,
+            },
+        },
+        exit: {
+            opacity: 0,
+            y: 40,
+            transition: {
+                duration: 0.5,
+            },
+        },
+    };
     return (
-        <motion.div
-            initial={{
-                x: "100%",
-                // float: true,
-                transition: { duration: 0.7 },
-            }}
-            animate={{ x: "0", transition: { duration: 0.7 } }}
-            exit={{ x: "100%", transition: { duration: 0.7 } }}
-        >
+        <motion.div variants={pageVariants} initial="from" animate="to" exit="exit">
             <div className=" project-detail">
                 <div className="content-w ">
                     <div className="wrap">

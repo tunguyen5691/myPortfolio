@@ -151,8 +151,10 @@ function Home() {
         from: {
             y: 40,
             opacity: 0,
+            scale: 0.9,
         },
         to: {
+            scale: 1,
             y: 0,
             opacity: 1,
             transition: {
@@ -178,11 +180,31 @@ function Home() {
             },
         },
     };
+    const pageVariants = {
+        from: {
+            opacity: 0,
+            y: 40,
+        },
+        to: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.5,
+            },
+        },
+        exit: {
+            opacity: 0,
+            y: 40,
+            transition: {
+                duration: 0.5,
+            },
+        },
+    };
+
     return (
         <>
             <Menu />
-
-            <div className="page home">
+            <motion.div className="page home" variants={pageVariants} initial="from" animate="to" exit="exit">
                 <section id="start">
                     <div className="content-w size-md">
                         <div className="wrap">
@@ -486,9 +508,19 @@ function Home() {
                                                 </motion.div>
                                             ))}
                                     </div>
-                                    <div className="all-projects-btn">
+                                    <motion.div
+                                        initial={{ scale: 0.8, opacity: 0 }}
+                                        whileInView={{ scale: 1, opacity: 1 }}
+                                        transition={{
+                                            duration: 0.6,
+                                            type: "spring",
+                                            stiffness: 200,
+                                            delay: 0.5,
+                                        }}
+                                        className="all-projects-btn"
+                                    >
                                         <span onClick={() => toStore("/store#website")}>All Projects</span>
-                                    </div>
+                                    </motion.div>
                                 </div>
                             </div>
                         </div>
@@ -507,7 +539,17 @@ function Home() {
                                         {projectData.list
                                             .filter((item) => item.type.includes("mobile"))
                                             .map((item, index) => (
-                                                <div className="item" key={item.id}>
+                                                <motion.div
+                                                    initial={{ opacity: 0, scale: 0.8 }}
+                                                    whileInView={{ opacity: 1, scale: 1 }}
+                                                    transition={{
+                                                        duration: 1,
+                                                        ease: "backOut",
+                                                        delay: index * 0.1,
+                                                    }}
+                                                    className="item"
+                                                    key={item.id}
+                                                >
                                                     <Project
                                                         isMobile
                                                         thumbImg={item.thumb}
@@ -516,12 +558,22 @@ function Home() {
                                                         timetime={item.time}
                                                         onClick={() => toDetail(item)}
                                                     />
-                                                </div>
+                                                </motion.div>
                                             ))}
                                     </div>
-                                    <div className="all-projects-btn">
+                                    <motion.div
+                                        initial={{ scale: 0.8, opacity: 0 }}
+                                        whileInView={{ scale: 1, opacity: 1 }}
+                                        transition={{
+                                            duration: 0.6,
+                                            type: "spring",
+                                            stiffness: 200,
+                                            delay: 0.5,
+                                        }}
+                                        className="all-projects-btn"
+                                    >
                                         <span onClick={() => toStore("/store#mobile")}>All Projects</span>
-                                    </div>
+                                    </motion.div>
                                 </div>
                             </div>
                         </div>
@@ -540,7 +592,17 @@ function Home() {
                                         {projectData.list
                                             .filter((item) => item.type.includes("landing"))
                                             .map((item, index) => (
-                                                <div className="item" key={item.id}>
+                                                <motion.div
+                                                    initial={{ opacity: 0, scale: 0.8 }}
+                                                    whileInView={{ opacity: 1, scale: 1 }}
+                                                    transition={{
+                                                        duration: 1,
+                                                        ease: "backOut",
+                                                        delay: index * 0.1,
+                                                    }}
+                                                    className="item"
+                                                    key={item.id}
+                                                >
                                                     <Project
                                                         thumbImg={item.thumb}
                                                         name={item.name}
@@ -548,12 +610,22 @@ function Home() {
                                                         timetime={item.time}
                                                         onClick={() => toDetail(item)}
                                                     />
-                                                </div>
+                                                </motion.div>
                                             ))}
                                     </div>
-                                    <div className="all-projects-btn">
+                                    <motion.div
+                                        initial={{ scale: 0.8, opacity: 0 }}
+                                        whileInView={{ scale: 1, opacity: 1 }}
+                                        transition={{
+                                            duration: 0.6,
+                                            type: "spring",
+                                            stiffness: 200,
+                                            delay: 0.5,
+                                        }}
+                                        className="all-projects-btn"
+                                    >
                                         <span onClick={() => toStore("/store#landing")}> All Projects</span>
-                                    </div>
+                                    </motion.div>
                                 </div>
                             </div>
                         </div>
@@ -580,7 +652,7 @@ function Home() {
                         </div>
                     </div>
                 </section>
-            </div>
+            </motion.div>
         </>
     );
 }
