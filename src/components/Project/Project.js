@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { motion, useScroll } from "framer-motion";
 
 import arrowRight from "../../assets/images/right-arrow.png";
 import "./Project.scss";

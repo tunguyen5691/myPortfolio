@@ -1,19 +1,18 @@
-import React, { useEffect, useState, useRef, useLayoutEffect, cloneElement } from "react";
+import { motion, stagger, useAnimate, useScroll, useTransform } from "framer-motion";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
+import glitch from "../../assets/images/1.jpg";
 import email from "../../assets/images/email.png";
 import phone from "../../assets/images/phone.png";
-import glitch from "../../assets/images/1.jpg";
 import Menu from "../../components/Menu/Menu";
 import Project from "../../components/Project/Project";
 import "./Home.scss";
-import { color, motion, useScroll } from "framer-motion";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import projectState from "../../store/projectState";
 import { TypeAnimation } from "react-type-animation";
-import Button from "../../components/Button/Button";
+import projectState from "../../store/projectState";
 
 function Home() {
     const ref = useRef(null);
@@ -92,20 +91,6 @@ function Home() {
     const navigate = useNavigate();
     const [contact, setContact] = useState(false);
     const [projectData, setProjectData] = useRecoilState(projectState);
-    // const [sortOrder, setSortOrder] = useState("true");
-
-    // const handleSort = () => {
-    //     setSortOrder(!sortOrder);
-    //     const newList = [...projectData.list];
-    //     if (sortOrder == true) {
-    //         newList.sort((a, b) => a.name.localeCompare(b.name));
-    //     } else {
-    //         newList.sort((a, b) => b.name.localeCompare(a.name));
-    //     }
-    //     let newprojectData = { ...projectData };
-    //     newprojectData.list = newList;
-    //     setProjectData(newprojectData);
-    // };
 
     const storeToLocalStorage = (key, value) => {
         localStorage.setItem("selected", JSON.stringify(value));
@@ -144,65 +129,134 @@ function Home() {
     useEffect(() => {
         window.addEventListener("scroll", getOffset);
     }, []);
+
     const { scrollYProgress } = useScroll();
+    const scale = useTransform(scrollYProgress, [0, 0.2], [1, 1.5]);
+    const rotate = useTransform(scrollYProgress, [0, 0.5], [0, 90]);
+
+    const blockParent = {
+        from: {
+            opacity: 0,
+        },
+        to: {
+            opacity: 1,
+            transition: {
+                when: "beforeChildren",
+                staggerChildren: 0.1,
+                delay: 0.6,
+            },
+        },
+    };
+    const fadeInUpItem = {
+        from: {
+            y: 40,
+            opacity: 0,
+        },
+        to: {
+            y: 0,
+            opacity: 1,
+            transition: {
+                type: "spring",
+                stiffness: 120,
+            },
+        },
+    };
+
+    const timelineVariants = {
+        from: {
+            opacity: 0.5,
+            backgroundColor: "#000",
+        },
+        to: {
+            opacity: 1,
+            width: [0, 600, 550, 600, 1],
+            height: [0, 1000],
+            backgroundColor: ["#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#5918df"],
+            transition: {
+                duration: 2,
+                delay: 0.5,
+            },
+        },
+    };
     return (
         <>
             <Menu />
 
-            <motion.div
-                initial={{
-                    opacity: 0,
-                    x: "0",
-                    transition: { duration: 0.1 },
-                }}
-                animate={{ x: "0%", opacity: 1, transition: { duration: 0.1 } }}
-                exit={{ x: "0", opacity: 0, transition: { duration: 0.1 } }}
-            >
-                <div className="page home" ref={ref}>
-                    <section id="start">
-                        <div className="content-w size-md">
-                            <div className="wrap">
-                                <div className="block">
-                                    <div className="timeline"></div>
-                                    <div className="block-introduce">
-                                        <div className="bl bl-left">
-                                            <div className="block-label">
-                                                <span>Start</span>
-                                            </div>
-                                            <div className="block-introduce__name">
-                                                I am{" "}
-                                                <span>
-                                                    <TypeAnimation
-                                                        sequence={["Tu Nguyen", 1000, "Front End Developer", 1000]}
-                                                        speed={50}
-                                                        repeat={Infinity}
-                                                    />
-                                                </span>
-                                            </div>
-                                            <div className="block-introduce__description">
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                                    eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem
-                                                    ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                                    tempor incididunt ut labore et dolore magna aliqua.
-                                                </p>
-                                            </div>
-                                            <div className="show-more">Let me show YOU something...</div>
-                                        </div>
-                                        <div className="bl bl-right">
-                                            <div className="glitch">
-                                                <img src={glitch} className="main" />
-                                                <img src={glitch} className="sub sub1" />
-                                                <img src={glitch} className="sub sub2" />
-                                            </div>
-                                        </div>
+            <div className="page home">
+                <section id="start">
+                    <div className="content-w size-md">
+                        <div className="wrap">
+                            <div className="block">
+                                <motion.div
+                                    className="timeline"
+                                    variants={timelineVariants}
+                                    initial="from"
+                                    animate="to"
+                                ></motion.div>
+                                <motion.div
+                                    className="block-introduce"
+                                    variants={blockParent}
+                                    initial="from"
+                                    animate="to"
+                                >
+                                    <div className="bl bl-left">
+                                        <motion.div className="block-label fadeInUp" variants={fadeInUpItem}>
+                                            <span>Start</span>
+                                        </motion.div>
+                                        <motion.div className="block-introduce__name fadeInUp" variants={fadeInUpItem}>
+                                            I am{" "}
+                                            <span>
+                                                <TypeAnimation
+                                                    sequence={["Tu Nguyen", 1000, "Front End Developer", 1000]}
+                                                    speed={50}
+                                                    repeat={Infinity}
+                                                />
+                                            </span>
+                                        </motion.div>
+                                        <motion.div
+                                            className="block-introduce__description fadeInUp"
+                                            variants={fadeInUpItem}
+                                        >
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                                                tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit
+                                                amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                                                labore et dolore magna aliqua.
+                                            </p>
+                                        </motion.div>
+                                        <motion.div className="show-more fadeInUp" variants={fadeInUpItem}>
+                                            Let me show YOU something...
+                                        </motion.div>
                                     </div>
-                                </div>
+                                    <motion.div
+                                        className="bl bl-right"
+                                        initial={{
+                                            scale: 2,
+                                            opacity: 0,
+                                        }}
+                                        animate={{
+                                            opacity: 1,
+                                            scale: 1.8,
+                                        }}
+                                        transition={{
+                                            duration: 1.5,
+                                            delay: 0.7,
+                                            ease: "backOut",
+                                        }}
+                                    >
+                                        <motion.div className="glitch" style={{ scale, rotate }}>
+                                            <img src={glitch} className="main" />
+                                            <img src={glitch} className="sub sub1" />
+                                            <img src={glitch} className="sub sub2" />
+                                        </motion.div>
+                                    </motion.div>
+                                </motion.div>
                             </div>
                         </div>
-                    </section>
+                    </div>
+                </section>
 
-                    {/* <section id="about">
+                {/* <section id="about">
                     <div className="content-w size-md">
                         <div className="wrap pt-60 pb-60">
                             <div className="timeline"></div>
@@ -389,135 +443,144 @@ function Home() {
                         </div>
                     </div>
                 </section> */}
-                    <section id="projects" className=" pb-60 ">
-                        <div className="row">
-                            <div className="content-w size-md">
-                                <div className="wrap pt-60">
-                                    <div className="timeline"></div>
-                                    <div className="block-label ">
-                                        <span>Projects</span>
-                                    </div>
-                                    <div className="block-description mb-60">
-                                        <span>Landing Pages, Websites ...</span>
-                                    </div>
-                                    <div className="list-project-type right ">
-                                        <div className="wrap">
-                                            <span>WEBSITE</span>
-                                            <span>WEBSITE</span>
-                                        </div>
-                                    </div>
-                                    <div className="list-project ">
-                                        <div className="list-project-wrap list-project__webs">
-                                            {projectData.list
-                                                .filter((item) => item.type.includes("website"))
-                                                .map((item, index) => (
-                                                    <div className="item" key={item.id}>
-                                                        <Project
-                                                            thumbImg={item.thumb}
-                                                            name={item.name}
-                                                            description={item.description}
-                                                            timetime={item.time}
-                                                            onClick={() => toDetail(item)}
-                                                        />
-                                                    </div>
-                                                ))}
-                                        </div>
-                                        <div className="all-projects-btn">
-                                            <span onClick={() => toStore("/store#website")}>All Projects</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="list-project-type left ">
-                                <div className="wrap">
-                                    <span>MOBILE</span>
-                                    <span>MOBILE</span>
-                                </div>
-                            </div>
-                            <div className="content-w size-md">
-                                <div className="wrap">
-                                    <div className="list-project">
-                                        <div className="list-project-wrap list-project__mobile">
-                                            {projectData.list
-                                                .filter((item) => item.type.includes("mobile"))
-                                                .map((item, index) => (
-                                                    <div className="item" key={item.id}>
-                                                        <Project
-                                                            isMobile
-                                                            thumbImg={item.thumb}
-                                                            name={item.name}
-                                                            description={item.description}
-                                                            timetime={item.time}
-                                                            onClick={() => toDetail(item)}
-                                                        />
-                                                    </div>
-                                                ))}
-                                        </div>
-                                        <div className="all-projects-btn">
-                                            <span onClick={() => toStore("/store#mobile")}>All Projects</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="list-project-type right ">
-                                <div className="wrap">
-                                    <span>LANDING</span>
-                                    <span>LANDING</span>
-                                </div>
-                            </div>
-                            <div className="content-w size-md">
-                                <div className="wrap">
-                                    <div className="list-project ">
-                                        <div className="list-project-wrap list-project__webs">
-                                            {projectData.list
-                                                .filter((item) => item.type.includes("landing"))
-                                                .map((item, index) => (
-                                                    <div className="item" key={item.id}>
-                                                        <Project
-                                                            thumbImg={item.thumb}
-                                                            name={item.name}
-                                                            description={item.description}
-                                                            timetime={item.time}
-                                                            onClick={() => toDetail(item)}
-                                                        />
-                                                    </div>
-                                                ))}
-                                        </div>
-                                        <div className="all-projects-btn">
-                                            <span onClick={() => toStore("/store#landing")}> All Projects</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>{" "}
-                    </section>
-                    <section id="contact">
+                <section id="projects" className=" pb-60 ">
+                    <div className="row">
                         <div className="content-w size-md">
                             <div className="wrap pt-60">
                                 <div className="timeline"></div>
                                 <div className="block-label ">
-                                    <span>Contact</span>
+                                    <span>Projects</span>
                                 </div>
-                                <div className={`action ${contact ? "active" : ""}`}>
-                                    <div className="button" onClick={handleContacttoggle}>
-                                        Get In Touch
+                                <div className="block-description mb-60">
+                                    <span>Landing Pages, Websites ...</span>
+                                </div>
+                                <div className="list-project-type right ">
+                                    <div className="wrap">
+                                        <span>WEBSITE</span>
+                                        <span>WEBSITE</span>
                                     </div>
-                                    <a href="tel:0904582391" className="icon phone">
-                                        <img src={phone} />
-                                    </a>
-                                    <a href="mailto:tu.nguyen5691@gmail.com" className="icon email">
-                                        <img src={email} />
-                                    </a>
+                                </div>
+                                <div className="list-project ">
+                                    <div className="list-project-wrap list-project__webs">
+                                        {projectData.list
+                                            .filter((item) => item.type.includes("website"))
+                                            .map((item, index) => (
+                                                <motion.div
+                                                    initial={{ opacity: 0, scale: 0.8 }}
+                                                    whileInView={{ opacity: 1, scale: 1 }}
+                                                    transition={{
+                                                        duration: 1,
+                                                        ease: "backOut",
+                                                        delay: index * 0.1,
+                                                    }}
+                                                    className="item"
+                                                    key={item.id}
+                                                >
+                                                    <Project
+                                                        thumbImg={item.thumb}
+                                                        name={item.name}
+                                                        description={item.description}
+                                                        timetime={item.time}
+                                                        onClick={() => toDetail(item)}
+                                                    />
+                                                </motion.div>
+                                            ))}
+                                    </div>
+                                    <div className="all-projects-btn">
+                                        <span onClick={() => toStore("/store#website")}>All Projects</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </section>
-                </div>
-            </motion.div>
+                    </div>
+                    <div className="row">
+                        <div className="list-project-type left ">
+                            <div className="wrap">
+                                <span>MOBILE</span>
+                                <span>MOBILE</span>
+                            </div>
+                        </div>
+                        <div className="content-w size-md">
+                            <div className="wrap">
+                                <div className="list-project">
+                                    <div className="list-project-wrap list-project__mobile">
+                                        {projectData.list
+                                            .filter((item) => item.type.includes("mobile"))
+                                            .map((item, index) => (
+                                                <div className="item" key={item.id}>
+                                                    <Project
+                                                        isMobile
+                                                        thumbImg={item.thumb}
+                                                        name={item.name}
+                                                        description={item.description}
+                                                        timetime={item.time}
+                                                        onClick={() => toDetail(item)}
+                                                    />
+                                                </div>
+                                            ))}
+                                    </div>
+                                    <div className="all-projects-btn">
+                                        <span onClick={() => toStore("/store#mobile")}>All Projects</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="list-project-type right ">
+                            <div className="wrap">
+                                <span>LANDING</span>
+                                <span>LANDING</span>
+                            </div>
+                        </div>
+                        <div className="content-w size-md">
+                            <div className="wrap">
+                                <div className="list-project ">
+                                    <div className="list-project-wrap list-project__webs">
+                                        {projectData.list
+                                            .filter((item) => item.type.includes("landing"))
+                                            .map((item, index) => (
+                                                <div className="item" key={item.id}>
+                                                    <Project
+                                                        thumbImg={item.thumb}
+                                                        name={item.name}
+                                                        description={item.description}
+                                                        timetime={item.time}
+                                                        onClick={() => toDetail(item)}
+                                                    />
+                                                </div>
+                                            ))}
+                                    </div>
+                                    <div className="all-projects-btn">
+                                        <span onClick={() => toStore("/store#landing")}> All Projects</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>{" "}
+                </section>
+                <section id="contact">
+                    <div className="content-w size-md">
+                        <div className="wrap pt-60">
+                            <div className="timeline"></div>
+                            <div className="block-label ">
+                                <span>Contact</span>
+                            </div>
+                            <div className={`action ${contact ? "active" : ""}`}>
+                                <div className="button" onClick={handleContacttoggle}>
+                                    Get In Touch
+                                </div>
+                                <a href="tel:0904582391" className="icon phone">
+                                    <img src={phone} />
+                                </a>
+                                <a href="mailto:tu.nguyen5691@gmail.com" className="icon email">
+                                    <img src={email} />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </>
     );
 }

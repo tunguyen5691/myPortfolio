@@ -1,18 +1,19 @@
-.project-store {
-    .search {
-        width: 40%;
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 222;
-        @media (width < 767px) {
-            width: 100%;
-            right: 0;
-            padding: 20px;
-            top: 0;
-            box-sizing: border-box;
-        }
+.search {
+    width: 40%;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 222;
+    @media (width < 767px) {
+        width: 100%;
+        right: 0;
+        padding: 20px;
+        top: 0;
+        box-sizing: border-box;
     }
+}
+
+.project-store {
     .title {
         aspect-ratio: 19/5;
         display: flex;

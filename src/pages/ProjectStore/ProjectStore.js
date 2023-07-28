@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import projectState from "../../store/projectState";
 import Project from "../../components/Project/Project";
 import { useLoaderData, useLocation, useNavigate } from "react-router";
+import { motion, useScroll } from "framer-motion";
 const tabData = [
     {
         id: 1,
@@ -30,8 +31,10 @@ const ProjectStore = () => {
     const [projectData, setProjectData] = useRecoilState(projectState);
     const [search, SetSearch] = useState("");
 
-    const handleTab = (index) => {
+    const handleTab = (index, e) => {
         setTabActive(index);
+        e.stopPropagation();
+        e.preventDefault();
         window.location.hash = tabData[index].type;
     };
     const navigate = useNavigate();
@@ -57,94 +60,105 @@ const ProjectStore = () => {
 
     const handleSearch = (newValue) => {
         SetSearch(newValue);
-        console.log(search);
     };
     return (
-        <div className="page project-store">
-            <div className="title">
-                <div className="text">Projects List</div>
+        <>
+            <div className="search">
+                <SearchBar onValueChange={handleSearch} />
             </div>
-            <div className="content-w size-md">
-                <div className="wrap">
-                    <div className="search">
-                        <SearchBar onValueChange={handleSearch} />
+            <motion.div
+                initial={{
+                    opacity: 0,
+                    y: "10%",
+                    transition: { duration: 0.5 },
+                }}
+                animate={{ y: "0%", opacity: 1, transition: { duration: 0.5 } }}
+                exit={{ y: "10%", opacity: 0, transition: { duration: 0.5 } }}
+            >
+                <div className="page project-store">
+                    <div className="title">
+                        <div className="text">Projects List</div>
                     </div>
-                    <div className="tab-panel">
-                        {tabData.map((item, index) => (
-                            <div
-                                key={item.id}
-                                className={`panel ${tabActive == index ? "active" : ""}`}
-                                onClick={() => handleTab(index)}
-                            >
-                                {item.panel}
+                    <div className="content-w size-md">
+                        <div className="wrap">
+                            <div className="tab-panel">
+                                {tabData.map((item, index) => (
+                                    <div
+                                        key={item.id}
+                                        className={`panel ${tabActive == index ? "active" : ""}`}
+                                        onClick={() => handleTab(index)}
+                                    >
+                                        {item.panel}
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
-                    <div className="tabs">
-                        <div className={`tab-content ${tabActive == 0 || tabActive == 1 ? "web" : "mobile"}`}>
-                            {tabActive == 0
-                                ? projectData.list
-                                      .filter((item) => {
-                                          return search === ""
-                                              ? item.type.includes("website")
-                                              : item.name.toLowerCase().includes(search);
-                                      })
-                                      .map((item, index) => (
-                                          <div className="item" key={item.id}>
-                                              <Project
-                                                  thumbImg={item.thumb}
-                                                  name={item.name}
-                                                  description={item.description}
-                                                  timetime={item.time}
-                                                  onClick={() => toDetail(item)}
-                                              />
-                                          </div>
-                                      ))
-                                : ""}
-                            {tabActive == 1
-                                ? projectData.list
-                                      .filter((item) => {
-                                          return search === ""
-                                              ? item.type.includes("landing")
-                                              : item.name.toLowerCase().includes(search);
-                                      })
-                                      .map((item, index) => (
-                                          <div className="item" key={item.id}>
-                                              <Project
-                                                  thumbImg={item.thumb}
-                                                  name={item.name}
-                                                  description={item.description}
-                                                  timetime={item.time}
-                                                  onClick={() => toDetail(item)}
-                                              />
-                                          </div>
-                                      ))
-                                : ""}
-                            {tabActive == 2
-                                ? projectData.list
-                                      .filter((item) => {
-                                          return search === ""
-                                              ? item.type.includes("mobile")
-                                              : item.name.toLowerCase().includes(search);
-                                      })
-                                      .map((item, index) => (
-                                          <div className="item" key={item.id}>
-                                              <Project
-                                                  isMobile
-                                                  thumbImg={item.thumb}
-                                                  name={item.name}
-                                                  description={item.description}
-                                                  timetime={item.time}
-                                                  onClick={() => toDetail(item)}
-                                              />
-                                          </div>
-                                      ))
-                                : ""}
+                            <div className="tabs">
+                                <div className={`tab-content ${tabActive == 0 || tabActive == 1 ? "web" : "mobile"}`}>
+                                    {tabActive == 0
+                                        ? projectData.list
+                                              .filter((item) => {
+                                                  return search === ""
+                                                      ? item.type.includes("website")
+                                                      : item.name.toLowerCase().includes(search);
+                                              })
+                                              .map((item, index) => (
+                                                  <div className="item" key={item.id}>
+                                                      <Project
+                                                          thumbImg={item.thumb}
+                                                          name={item.name}
+                                                          description={item.description}
+                                                          timetime={item.time}
+                                                          onClick={() => toDetail(item)}
+                                                      />
+                                                  </div>
+                                              ))
+                                        : ""}
+                                    {tabActive == 1
+                                        ? projectData.list
+                                              .filter((item) => {
+                                                  return search === ""
+                                                      ? item.type.includes("landing")
+                                                      : item.name.toLowerCase().includes(search);
+                                              })
+                                              .map((item, index) => (
+                                                  <div className="item" key={item.id}>
+                                                      <Project
+                                                          thumbImg={item.thumb}
+                                                          name={item.name}
+                                                          description={item.description}
+                                                          timetime={item.time}
+                                                          onClick={() => toDetail(item)}
+                                                      />
+                                                  </div>
+                                              ))
+                                        : ""}
+                                    {tabActive == 2
+                                        ? projectData.list
+                                              .filter((item) => {
+                                                  return search === ""
+                                                      ? item.type.includes("mobile")
+                                                      : item.name.toLowerCase().includes(search);
+                                              })
+                                              .map((item, index) => (
+                                                  <div className="item" key={item.id}>
+                                                      <Project
+                                                          isMobile
+                                                          thumbImg={item.thumb}
+                                                          name={item.name}
+                                                          description={item.description}
+                                                          timetime={item.time}
+                                                          onClick={() => toDetail(item)}
+                                                      />
+                                                  </div>
+                                              ))
+                                        : ""}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </motion.div>
+        </>
     );
 };
 

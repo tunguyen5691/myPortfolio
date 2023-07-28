@@ -34,6 +34,10 @@
                     width: 100%;
                     order: 2;
                 }
+                &.bl-left {
+                    position: relative;
+                    z-index: 2;
+                }
                 &.bl-right {
                     padding-left: 4em;
                     width: 40%;
@@ -87,6 +91,7 @@
                 }
                 span {
                     color: var(--color-primary);
+                    mix-blend-mode: color-burn;
                 }
             }
             &__description {
