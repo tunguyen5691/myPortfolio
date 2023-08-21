@@ -133,7 +133,7 @@ function Home() {
     const { scrollYProgress } = useScroll();
     const scale = useTransform(scrollYProgress, [0, 0.2], [1, 1.5]);
     const rotate = useTransform(scrollYProgress, [0, 0.5], [0, 90]);
-
+    const background = useTransform(scrollYProgress, [0.2, 0.5, 1], ["#1a1527", "#0e0c16", "#1a1527"]);
     const blockParent = {
         from: {
             opacity: 0,
@@ -153,13 +153,26 @@ function Home() {
             opacity: 0,
             scale: 0.9,
         },
-        to: {
+        whileInView: {
             scale: 1,
             y: 0,
             opacity: 1,
+        },
+    };
+
+    const propjectTypeVariants = {
+        from: {
+            opacity: 0,
+            y: "30%",
+        },
+        whileInView: {
+            opacity: 1,
+            y: "0%",
             transition: {
+                delay: 0.5,
+
                 type: "spring",
-                stiffness: 120,
+                stiffness: 150,
             },
         },
     };
@@ -222,15 +235,40 @@ function Home() {
                                     animate="to"
                                 >
                                     <div className="bl bl-left">
-                                        <motion.div className="block-label fadeInUp" variants={fadeInUpItem}>
+                                        <motion.div
+                                            className="block-label fadeInUp"
+                                            variants={fadeInUpItem}
+                                            initial="from"
+                                            whileInView="whileInView"
+                                            transition={{
+                                                delay: 1,
+                                                type: "spring",
+                                                stiffness: 120,
+                                            }}
+                                            viewport={{ once: true }}
+                                        >
                                             <span>Start</span>
                                         </motion.div>
-                                        <motion.div className="block-introduce__name fadeInUp" variants={fadeInUpItem}>
+                                        <motion.div
+                                            className="block-introduce__name fadeInUp"
+                                            variants={fadeInUpItem}
+                                            initial="from"
+                                            whileInView="whileInView"
+                                            drag
+                                            dragConstraints={{ left: 100, bottom: 0, top: 0, right: 0 }}
+                                            dragElastic={0.5}
+                                            transition={{
+                                                delay: 1.2,
+                                                type: "spring",
+                                                stiffness: 120,
+                                            }}
+                                            viewport={{ once: true }}
+                                        >
                                             I am{" "}
                                             <span>
                                                 <TypeAnimation
                                                     sequence={["Tu Nguyen", 1000, "Front End Developer", 1000]}
-                                                    speed={50}
+                                                    speed={30}
                                                     repeat={Infinity}
                                                 />
                                             </span>
@@ -238,6 +276,15 @@ function Home() {
                                         <motion.div
                                             className="block-introduce__description fadeInUp"
                                             variants={fadeInUpItem}
+                                            initial="from"
+                                            whileInView="whileInView"
+                                            viewport={{ once: true }}
+                                            transition={{
+                                                delay: 1.4,
+
+                                                type: "spring",
+                                                stiffness: 120,
+                                            }}
                                         >
                                             <p>
                                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
@@ -246,7 +293,18 @@ function Home() {
                                                 labore et dolore magna aliqua.
                                             </p>
                                         </motion.div>
-                                        <motion.div className="show-more fadeInUp" variants={fadeInUpItem}>
+                                        <motion.div
+                                            className="show-more fadeInUp"
+                                            variants={fadeInUpItem}
+                                            initial="from"
+                                            whileInView="whileInView"
+                                            viewport={{ once: true }}
+                                            transition={{
+                                                delay: 1.6,
+                                                type: "spring",
+                                                stiffness: 120,
+                                            }}
+                                        >
                                             Let me show YOU something...
                                         </motion.div>
                                     </div>
@@ -465,22 +523,62 @@ function Home() {
                         </div>
                     </div>
                 </section> */}
-                <section id="projects" className=" pb-60 ">
+                <motion.section
+                    id="projects"
+                    className=" pb-60 "
+                    style={{
+                        background,
+                    }}
+                    // initial={{ background: "#000000" }}
+                    // whileInView={{ background: "#1a1527" }}
+                    // transition={{
+                    //     delay: 2,
+                    //     duration: 0.5,
+                    // }}
+                >
                     <div className="row">
                         <div className="content-w size-md">
                             <div className="wrap pt-60">
                                 <div className="timeline"></div>
-                                <div className="block-label ">
+                                <motion.div
+                                    className="block-label "
+                                    variants={fadeInUpItem}
+                                    initial="from"
+                                    whileInView="whileInView"
+                                    transition={{
+                                        delay: 0.5,
+                                        type: "spring",
+                                        stiffness: 120,
+                                    }}
+                                    viewport={{ once: true }}
+                                >
                                     <span>Projects</span>
-                                </div>
-                                <div className="block-description mb-60">
+                                </motion.div>
+                                <motion.div
+                                    className="block-description mb-60"
+                                    variants={fadeInUpItem}
+                                    initial="from"
+                                    whileInView="whileInView"
+                                    transition={{
+                                        delay: 0.7,
+                                        type: "spring",
+                                        stiffness: 120,
+                                    }}
+                                    viewport={{ once: true }}
+                                >
                                     <span>Landing Pages, Websites ...</span>
-                                </div>
+                                </motion.div>
                                 <div className="list-project-type right ">
-                                    <div className="wrap">
+                                    <motion.div
+                                        className="wrap"
+                                        variants={propjectTypeVariants}
+                                        initial="from"
+                                        whileInView="whileInView"
+                                        viewport={{ once: true }}
+                                    >
                                         <span>WEBSITE</span>
                                         <span>WEBSITE</span>
-                                    </div>
+                                    </motion.div>
                                 </div>
                                 <div className="list-project ">
                                     <div className="list-project-wrap list-project__webs">
@@ -493,8 +591,9 @@ function Home() {
                                                     transition={{
                                                         duration: 1,
                                                         ease: "backOut",
-                                                        delay: index * 0.1,
+                                                        delay: index * 0.2,
                                                     }}
+                                                    viewport={{ once: true }}
                                                     className="item"
                                                     key={item.id}
                                                 >
@@ -518,6 +617,7 @@ function Home() {
                                             delay: 0.5,
                                         }}
                                         className="all-projects-btn"
+                                        viewport={{ once: true }}
                                     >
                                         <span onClick={() => toStore("/store#website")}>All Projects</span>
                                     </motion.div>
@@ -527,10 +627,16 @@ function Home() {
                     </div>
                     <div className="row">
                         <div className="list-project-type left ">
-                            <div className="wrap">
+                            <motion.div
+                                className="wrap"
+                                variants={propjectTypeVariants}
+                                initial="from"
+                                whileInView="whileInView"
+                                viewport={{ once: true }}
+                            >
                                 <span>MOBILE</span>
                                 <span>MOBILE</span>
-                            </div>
+                            </motion.div>
                         </div>
                         <div className="content-w size-md">
                             <div className="wrap">
@@ -545,8 +651,9 @@ function Home() {
                                                     transition={{
                                                         duration: 1,
                                                         ease: "backOut",
-                                                        delay: index * 0.1,
+                                                        delay: index * 0.2,
                                                     }}
+                                                    viewport={{ once: true }}
                                                     className="item"
                                                     key={item.id}
                                                 >
@@ -570,6 +677,7 @@ function Home() {
                                             stiffness: 200,
                                             delay: 0.5,
                                         }}
+                                        viewport={{ once: true }}
                                         className="all-projects-btn"
                                     >
                                         <span onClick={() => toStore("/store#mobile")}>All Projects</span>
@@ -580,10 +688,16 @@ function Home() {
                     </div>
                     <div className="row">
                         <div className="list-project-type right ">
-                            <div className="wrap">
+                            <motion.div
+                                className="wrap"
+                                variants={propjectTypeVariants}
+                                initial="from"
+                                whileInView="whileInView"
+                                viewport={{ once: true }}
+                            >
                                 <span>LANDING</span>
                                 <span>LANDING</span>
-                            </div>
+                            </motion.div>
                         </div>
                         <div className="content-w size-md">
                             <div className="wrap">
@@ -598,8 +712,9 @@ function Home() {
                                                     transition={{
                                                         duration: 1,
                                                         ease: "backOut",
-                                                        delay: index * 0.1,
+                                                        delay: index * 0.2,
                                                     }}
+                                                    viewport={{ once: true }}
                                                     className="item"
                                                     key={item.id}
                                                 >
@@ -616,6 +731,7 @@ function Home() {
                                     <motion.div
                                         initial={{ scale: 0.8, opacity: 0 }}
                                         whileInView={{ scale: 1, opacity: 1 }}
+                                        viewport={{ once: true }}
                                         transition={{
                                             duration: 0.6,
                                             type: "spring",
@@ -630,15 +746,39 @@ function Home() {
                             </div>
                         </div>
                     </div>{" "}
-                </section>
+                </motion.section>
                 <section id="contact">
                     <div className="content-w size-md">
                         <div className="wrap pt-60">
                             <div className="timeline"></div>
-                            <div className="block-label ">
+                            <motion.div
+                                className="block-label "
+                                variants={fadeInUpItem}
+                                initial="from"
+                                whileInView="whileInView"
+                                viewport={{ once: true }}
+                                transition={{
+                                    delay: 0.5,
+                                    type: "spring",
+                                    stiffness: 120,
+                                }}
+                            >
                                 <span>Contact</span>
-                            </div>
-                            <div className={`action ${contact ? "active" : ""}`}>
+                            </motion.div>
+                            <motion.div
+                                className={`action ${contact ? "active" : ""}`}
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                viewport={{ once: true }}
+                                whileInView={{
+                                    opacity: 1,
+                                    scale: 1,
+                                    transition: {
+                                        type: "spring",
+                                        delay: 0.7,
+                                        stiffness: 120,
+                                    },
+                                }}
+                            >
                                 <div className="button" onClick={handleContacttoggle}>
                                     Get In Touch
                                 </div>
@@ -648,7 +788,7 @@ function Home() {
                                 <a href="mailto:tu.nguyen5691@gmail.com" className="icon email">
                                     <img src={email} />
                                 </a>
-                            </div>
+                            </motion.div>
                         </div>
                     </div>
                 </section>
