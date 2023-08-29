@@ -207,7 +207,6 @@ function Home() {
         },
         exit: {
             opacity: 0,
-            y: 40,
             transition: {
                 duration: 0.5,
             },

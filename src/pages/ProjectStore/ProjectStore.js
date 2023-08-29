@@ -5,7 +5,7 @@ import { useRecoilState } from "recoil";
 import projectState from "../../store/projectState";
 import Project from "../../components/Project/Project";
 import { useLoaderData, useLocation, useNavigate } from "react-router";
-import { motion, useScroll } from "framer-motion";
+import { backOut, motion, useScroll } from "framer-motion";
 const tabData = [
     {
         id: 1,
@@ -41,8 +41,10 @@ const ProjectStore = () => {
         localStorage.setItem("selected", JSON.stringify(value));
     };
     const toDetail = (item) => {
-        navigate(`/detail`);
         storeToLocalStorage("selected", item);
+        setTimeout(() => {
+            navigate(`/detail`);
+        }, 200);
     };
     useEffect(() => {
         if (location == "#website") {
@@ -73,7 +75,6 @@ const ProjectStore = () => {
         },
         exit: {
             opacity: 0,
-            y: 40,
             transition: {
                 duration: 0.5,
             },
@@ -90,21 +91,45 @@ const ProjectStore = () => {
                     &#8592;
                 </div>
                 <div className="title">
-                    <div className="text">Projects List</div>
+                    <motion.div
+                        className="text"
+                        initial={{
+                            y: "150%",
+                        }}
+                        animate={{
+                            y: 0,
+                        }}
+                        transition={{
+                            duration: 0.7,
+                            ease: backOut,
+                            delay: 0.5,
+                        }}
+                    >
+                        Projects List
+                    </motion.div>
                 </div>
                 <div className="content-w size-md">
                     <div className="wrap">
-                        <div className="tab-panel">
+                        <motion.div
+                            className="tab-panel"
+                            animate={{
+                                opacity: [0, 1],
+                            }}
+                            transition={{
+                                delay: 1,
+                            }}
+                        >
                             {tabData.map((item, index) => (
-                                <div
+                                <motion.div
+                                    whileTap={{ scale: 0.5 }}
                                     key={item.id}
                                     className={`panel ${tabActive == index ? "active" : ""}`}
                                     onClick={() => handleTab(index)}
                                 >
                                     {item.panel}
-                                </div>
+                                </motion.div>
                             ))}
-                        </div>
+                        </motion.div>
                         <div className="tabs">
                             <div className={`tab-content ${tabActive == 0 || tabActive == 1 ? "web" : "mobile"}`}>
                                 {tabActive == 0
@@ -115,7 +140,18 @@ const ProjectStore = () => {
                                                   : item.name.toLowerCase().includes(search);
                                           })
                                           .map((item, index) => (
-                                              <div className="item" key={item.id}>
+                                              <motion.div
+                                                  className="item"
+                                                  key={item.id}
+                                                  initial={{ opacity: 0, scale: 0.8 }}
+                                                  whileInView={{ opacity: 1, scale: 1 }}
+                                                  transition={{
+                                                      duration: 1,
+                                                      ease: "backOut",
+                                                      delay: index * 0.2,
+                                                  }}
+                                                  viewport={{ once: true }}
+                                              >
                                                   <Project
                                                       thumbImg={item.thumb}
                                                       name={item.name}
@@ -123,7 +159,7 @@ const ProjectStore = () => {
                                                       timetime={item.time}
                                                       onClick={() => toDetail(item)}
                                                   />
-                                              </div>
+                                              </motion.div>
                                           ))
                                     : ""}
                                 {tabActive == 1
