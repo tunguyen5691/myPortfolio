@@ -107,6 +107,7 @@ const ProjectDetail = (props) => {
             },
         },
     };
+
     return (
         <>
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal} contentLabel="Example Modal">

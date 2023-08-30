@@ -28,9 +28,16 @@
     //     }
     // }
     &.active {
-        background-color: rgba(#5918df, 0.2);
+        background-color: rgba(#fca311, 1);
         @media (width < 768px) {
-            background-color: rgba(#5918df, 1);
+            background-color: rgba(#fca311, 1);
+        }
+        .wrapper {
+            ul {
+                li {
+                    color: #14213d;
+                }
+            }
         }
     }
     .wrapper {

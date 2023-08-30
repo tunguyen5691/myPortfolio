@@ -16,6 +16,7 @@ import projectState from "../../store/projectState";
 
 function Home() {
     const ref = useRef(null);
+    const refBtnContact = useRef(null);
     gsap.registerPlugin(ScrollTrigger);
     useLayoutEffect(() => {
         let ctx = gsap.context(() => {
@@ -98,11 +99,15 @@ function Home() {
 
     const toDetail = (item) => {
         // const newprojectData = { ...projectData };
-        navigate(`/detail`);
+        setTimeout(() => {
+            navigate(`/detail`);
+        }, 300);
         storeToLocalStorage("selected", item);
     };
     const toStore = (cate) => {
-        navigate(cate);
+        setTimeout(() => {
+            navigate(cate);
+        }, 300);
     };
     const handleContacttoggle = () => {
         setContact(!contact);
@@ -129,6 +134,12 @@ function Home() {
     useEffect(() => {
         window.addEventListener("scroll", getOffset);
     }, []);
+
+    const handleClickOutside = (event) => {
+        if (refBtnContact.current && !refBtnContact.current.contains(event.target)) {
+            setContact(false);
+        }
+    };
 
     const { scrollYProgress } = useScroll();
     const scale = useTransform(scrollYProgress, [0, 0.2], [1, 1.5]);
@@ -186,7 +197,7 @@ function Home() {
             opacity: 1,
             width: [0, 600, 550, 600, 1],
             height: [0, 1000],
-            backgroundColor: ["#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#5918df"],
+            backgroundColor: ["#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#fca311"],
             transition: {
                 duration: 2,
                 delay: 0.5,
@@ -213,6 +224,12 @@ function Home() {
         },
     };
 
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
     return (
         <>
             <Menu />
@@ -253,9 +270,6 @@ function Home() {
                                             variants={fadeInUpItem}
                                             initial="from"
                                             whileInView="whileInView"
-                                            drag
-                                            dragConstraints={{ left: 100, bottom: 0, top: 0, right: 0 }}
-                                            dragElastic={0.5}
                                             transition={{
                                                 delay: 1.2,
                                                 type: "spring",
@@ -335,14 +349,32 @@ function Home() {
                     </div>
                 </section>
 
-                {/* <section id="about">
+                <section id="about">
                     <div className="content-w size-md">
                         <div className="wrap pt-60 pb-60">
                             <div className="timeline"></div>
-                            <div className="block-label ">
+                            <motion.div
+                                className="block-label "
+                                variants={fadeInUpItem}
+                                initial="from"
+                                whileInView="whileInView"
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 120,
+                                }}
+                                viewport={{ once: true }}
+                            >
                                 <span>About</span>
-                            </div>
-                            <div className="code-wrap">
+                            </motion.div>
+                            <motion.div
+                                className="code-wrap"
+                                animate={{
+                                    opacity: [0, 1],
+                                }}
+                                transition={{
+                                    type: "spring",
+                                }}
+                            >
                                 <div className="code-line flex" data-line="01">
                                     <div className="method">class</div>
                                     <div className="propname">&nbsp;Tu Nguyen&nbsp;</div> &#123;
@@ -518,22 +550,16 @@ function Home() {
                                 <div className="code-line flex" data-line="32">
                                     &#125;
                                 </div>
-                            </div>
+                            </motion.div>
                         </div>
                     </div>
-                </section> */}
+                </section>
                 <motion.section
                     id="projects"
                     className=" pb-60 "
                     style={{
                         background,
                     }}
-                    // initial={{ background: "#000000" }}
-                    // whileInView={{ background: "#1a1527" }}
-                    // transition={{
-                    //     delay: 2,
-                    //     duration: 0.5,
-                    // }}
                 >
                     <div className="row">
                         <div className="content-w size-md">
@@ -618,7 +644,12 @@ function Home() {
                                         className="all-projects-btn"
                                         viewport={{ once: true }}
                                     >
-                                        <span onClick={() => toStore("/store#website")}>All Projects</span>
+                                        <motion.span
+                                            whileTap={{ scale: 0.9 }}
+                                            onClick={() => toStore("/store#website")}
+                                        >
+                                            All Projects
+                                        </motion.span>
                                     </motion.div>
                                 </div>
                             </div>
@@ -679,7 +710,9 @@ function Home() {
                                         viewport={{ once: true }}
                                         className="all-projects-btn"
                                     >
-                                        <span onClick={() => toStore("/store#mobile")}>All Projects</span>
+                                        <motion.span whileTap={{ scale: 0.9 }} onClick={() => toStore("/store#mobile")}>
+                                            All Projects
+                                        </motion.span>
                                     </motion.div>
                                 </div>
                             </div>
@@ -739,7 +772,13 @@ function Home() {
                                         }}
                                         className="all-projects-btn"
                                     >
-                                        <span onClick={() => toStore("/store#landing")}> All Projects</span>
+                                        <motion.span
+                                            whileTap={{ scale: 0.9 }}
+                                            onClick={() => toStore("/store#landing")}
+                                        >
+                                            {" "}
+                                            All Projects
+                                        </motion.span>
                                     </motion.div>
                                 </div>
                             </div>
@@ -768,6 +807,7 @@ function Home() {
                                 className={`action ${contact ? "active" : ""}`}
                                 initial={{ opacity: 0, scale: 0.5 }}
                                 viewport={{ once: true }}
+                                ref={refBtnContact}
                                 whileInView={{
                                     opacity: 1,
                                     scale: 1,
