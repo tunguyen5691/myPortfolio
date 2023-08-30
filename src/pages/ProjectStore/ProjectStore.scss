@@ -31,7 +31,6 @@
         cursor: pointer;
         border: 1px solid white;
         &:hover {
-            opacity: 0.8;
             background-color: var(--color-primary);
         }
     }
@@ -115,6 +114,7 @@
             grid-template-columns: 1fr 1fr 1fr;
             width: 140%;
             margin-left: -20%;
+            min-height: 50vh;
             // background-color: red;
             position: relative;
             z-index: 2;
