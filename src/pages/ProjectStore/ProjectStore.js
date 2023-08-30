@@ -97,7 +97,7 @@ const ProjectStore = () => {
                             y: "150%",
                         }}
                         animate={{
-                            y: 0,
+                            y: -1,
                         }}
                         transition={{
                             duration: 0.7,
