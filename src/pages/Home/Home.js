@@ -15,84 +15,15 @@ import { TypeAnimation } from "react-type-animation";
 import projectState from "../../store/projectState";
 
 function Home() {
+    const [sectionIndex, setSectionIndex] = useState(0);
+
     const ref = useRef(null);
     const refBtnContact = useRef(null);
     gsap.registerPlugin(ScrollTrigger);
-    useLayoutEffect(() => {
-        let ctx = gsap.context(() => {
-            // use scoped selectors
-            gsap.from("#start", {
-                scrollTrigger: {
-                    trigger: "#start",
-                    start: " 50% 50%",
-                    end: "+=100%",
-                    onLeave: () => {
-                        document.querySelector(".start").classList.remove("active");
-                    },
-                    onEnterBack: () => {
-                        document.querySelector(".start").classList.add("active");
-                    },
-                },
-            });
-            gsap.from("#about", {
-                scrollTrigger: {
-                    trigger: "#about",
-                    start: " top 50%",
-                    end: "+=100%",
-                    onLeave: () => {
-                        document.querySelector(".about").classList.remove("active");
-                    },
-                    onLeaveBack: () => {
-                        document.querySelector(".about").classList.remove("active");
-                    },
-                    onEnter: () => {
-                        document.querySelector(".about").classList.add("active");
-                    },
-                    onEnterBack: () => {
-                        document.querySelector(".about").classList.add("active");
-                    },
-                },
-            });
-            gsap.from("#projects", {
-                scrollTrigger: {
-                    trigger: "#projects",
-                    start: " top 50%",
-                    end: "bottom bottom",
-                    onLeave: () => {
-                        document.querySelector(".projects").classList.remove("active");
-                    },
-                    onLeaveBack: () => {
-                        document.querySelector(".projects").classList.remove("active");
-                    },
-                    onEnter: () => {
-                        document.querySelector(".projects").classList.add("active");
-                    },
-                    onEnterBack: () => {
-                        document.querySelector(".projects").classList.add("active");
-                    },
-                },
-            });
-            gsap.from("#contact", {
-                scrollTrigger: {
-                    trigger: "#contact",
-                    start: " bottom 20%",
-                    end: "bottom bottom",
 
-                    onLeaveBack: () => {
-                        document.querySelector(".contact").classList.remove("active");
-                    },
-                    onEnter: () => {
-                        document.querySelector(".contact").classList.add("active");
-                    },
-                },
-            });
-        }, ref);
-        return () => ctx.revert();
-    }, []);
     const navigate = useNavigate();
     const [contact, setContact] = useState(false);
     const [projectData, setProjectData] = useRecoilState(projectState);
-
     const storeToLocalStorage = (key, value) => {
         localStorage.setItem("selected", JSON.stringify(value));
     };
@@ -232,7 +163,7 @@ function Home() {
     }, []);
     return (
         <>
-            <Menu />
+            <Menu sectionIndex={sectionIndex} />
             <motion.div className="page home" variants={pageVariants} initial="from" animate="to" exit="exit">
                 <section id="start">
                     <div className="content-w size-md">
@@ -349,7 +280,12 @@ function Home() {
                     </div>
                 </section>
 
-                <section id="about">
+                <motion.section
+                    id="about"
+                    whileInView={() => {
+                        setSectionIndex(1);
+                    }}
+                >
                     <div className="content-w size-md">
                         <div className="wrap pt-60 pb-60">
                             <div className="timeline"></div>
@@ -553,7 +489,7 @@ function Home() {
                             </motion.div>
                         </div>
                     </div>
-                </section>
+                </motion.section>
                 <motion.section
                     id="projects"
                     className=" pb-60 "
