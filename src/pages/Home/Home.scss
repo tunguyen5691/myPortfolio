@@ -2,6 +2,7 @@
     background: url("../../assets/images/cover.webp") center no-repeat;
     background-size: cover;
     overflow: hidden;
+
     @media (width < 768px) {
         padding-top: 60px;
     }

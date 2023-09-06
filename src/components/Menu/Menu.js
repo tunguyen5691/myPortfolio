@@ -27,27 +27,26 @@ const MenuItem = [
 ];
 
 export default function Menu({ position, open, sectionIndex }) {
-    const [active, setActive] = useState(0);
-    const [menu, setMenu] = useState(MenuItem);
+    const [active, setActive] = useState(sectionIndex);
 
-    const handleMenuActive = (sectionIndex) => {
-        const updateMenu = menu.map((item, index) => {
-            if (index == sectionIndex) {
-                console.log("true");
-            } else {
-                console.log("false");
-            }
-        });
-    };
+    const [menu, setMenu] = useState(MenuItem);
     const scrollToSection = (id, index) => {
-        console.log(sectionIndex);
         setActive(index);
         document.getElementById(id).scrollIntoView({
             behavior: "smooth",
         });
     };
-    useEffect(() => {}, []);
-
+    useEffect(() => {
+        const updateMenu = menu.map((item, index) => {
+            if (index == sectionIndex) {
+                return { ...item, active: true };
+            } else {
+                return { ...item, active: false };
+            }
+        });
+        setMenu(updateMenu);
+        console.log(menu);
+    }, [sectionIndex]);
     return (
         <motion.div
             className={`menu ${position} ${open}`}
@@ -64,7 +63,11 @@ export default function Menu({ position, open, sectionIndex }) {
             <div className="wrapper">
                 <ul>
                     {MenuItem.map((item, index) => (
-                        <li className={`${item.id} `} key={item.id} onClick={() => scrollToSection(item.id, index)}>
+                        <li
+                            className={`${item.id}  ${menu[index].active ? "active" : ""}`}
+                            key={item.id}
+                            onClick={() => scrollToSection(item.id, index)}
+                        >
                             {item.label}
                         </li>
                     ))}

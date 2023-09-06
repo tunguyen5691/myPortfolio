@@ -1,7 +1,7 @@
-import { motion, stagger, useAnimate, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import glitch from "../../assets/images/1.jpg";
@@ -9,15 +9,13 @@ import email from "../../assets/images/email.png";
 import phone from "../../assets/images/phone.png";
 import Menu from "../../components/Menu/Menu";
 import Project from "../../components/Project/Project";
+
 import "./Home.scss";
 
 import { TypeAnimation } from "react-type-animation";
 import projectState from "../../store/projectState";
 
 function Home() {
-    const [sectionIndex, setSectionIndex] = useState(0);
-
-    const ref = useRef(null);
     const refBtnContact = useRef(null);
     gsap.registerPlugin(ScrollTrigger);
 
@@ -154,6 +152,7 @@ function Home() {
             },
         },
     };
+    const [sectionIndex, setSectionIndex] = useState(0);
 
     useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
@@ -161,11 +160,39 @@ function Home() {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+
+    const sectionStart = useRef(null);
+    const sectionAbout = useRef(null);
+    const sectionProjects = useRef(null);
+    const isInViewStart = useInView(sectionStart, {});
+    const isInViewAbout = useInView(sectionAbout, {
+        amount: 0.1,
+    });
+
+    const isInViewProjects = useInView(sectionProjects, {
+        amount: 0.1,
+    });
+
+    useEffect(() => {
+        if (isInViewAbout) {
+            setSectionIndex(1);
+            // console.log("about", isInViewAbout);
+        } else if (isInViewProjects) {
+            setSectionIndex(2);
+            // console.log("project", isInViewProjects);
+        } else if (isInViewStart) {
+            setSectionIndex(0);
+        }
+        // console.log(sectionIndex);
+    }, [isInViewStart, isInViewAbout, isInViewProjects]);
+    const contactsetindex = (i) => {
+        setSectionIndex(i);
+    };
     return (
         <>
             <Menu sectionIndex={sectionIndex} />
             <motion.div className="page home" variants={pageVariants} initial="from" animate="to" exit="exit">
-                <section id="start">
+                <section id="start" ref={sectionStart}>
                     <div className="content-w size-md">
                         <div className="wrap">
                             <div className="block">
@@ -279,13 +306,7 @@ function Home() {
                         </div>
                     </div>
                 </section>
-
-                <motion.section
-                    id="about"
-                    whileInView={() => {
-                        setSectionIndex(1);
-                    }}
-                >
+                <motion.section id="about" ref={sectionAbout}>
                     <div className="content-w size-md">
                         <div className="wrap pt-60 pb-60">
                             <div className="timeline"></div>
@@ -490,12 +511,14 @@ function Home() {
                         </div>
                     </div>
                 </motion.section>
+
                 <motion.section
                     id="projects"
                     className=" pb-60 "
                     style={{
                         background,
                     }}
+                    ref={sectionProjects}
                 >
                     <div className="row">
                         <div className="content-w size-md">
@@ -654,7 +677,7 @@ function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="row">
+                    <motion.div className="row" whileInView={() => setSectionIndex(2)}>
                         <div className="list-project-type right ">
                             <motion.div
                                 className="wrap"
@@ -719,9 +742,9 @@ function Home() {
                                 </div>
                             </div>
                         </div>
-                    </div>{" "}
+                    </motion.div>{" "}
                 </motion.section>
-                <section id="contact">
+                <motion.section id="contact" whileInView={() => setSectionIndex(3)}>
                     <div className="content-w size-md">
                         <div className="wrap pt-60">
                             <div className="timeline"></div>
@@ -743,7 +766,6 @@ function Home() {
                                 className={`action ${contact ? "active" : ""}`}
                                 initial={{ opacity: 0, scale: 0.5 }}
                                 viewport={{ once: true }}
-                                ref={refBtnContact}
                                 whileInView={{
                                     opacity: 1,
                                     scale: 1,
@@ -766,7 +788,7 @@ function Home() {
                             </motion.div>
                         </div>
                     </div>
-                </section>
+                </motion.section>
             </motion.div>
         </>
     );
