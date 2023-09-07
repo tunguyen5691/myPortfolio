@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { motion, useScroll } from "framer-motion";
 
 import arrowRight from "../../assets/images/right-arrow.png";
 import "./Project.scss";
@@ -23,10 +24,10 @@ export default function Project(props) {
                     <div className="project-name">{name}</div>
                     <div className="project-detail">{description}</div>
                     <div className="detail">
-                        <span onClick={onClick}>
+                        <motion.span onClick={onClick} whileTap={{ scale: 0.5 }}>
                             Explore
                             <img src={arrowRight} />
-                        </span>
+                        </motion.span>
                     </div>
                 </div>
             </div>

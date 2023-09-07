@@ -1,120 +1,43 @@
-import React, { useEffect, useState, useRef, useLayoutEffect, cloneElement } from "react";
-import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import email from "../../assets/images/email.png";
-import phone from "../../assets/images/phone.png";
-import glitch from "../../assets/images/1.jpg";
-import Menu from "../../components/Menu/Menu";
-import Project from "../../components/Project/Project";
-import "./Home.scss";
-import { color, motion } from "framer-motion";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import glitch from "../../assets/images/1.jpg";
+import email from "../../assets/images/email.png";
+import phone from "../../assets/images/phone.png";
+import facebook from "../../assets/images/facebook.png";
+import Menu from "../../components/Menu/Menu";
+import Project from "../../components/Project/Project";
 
-import projectState from "../../store/projectState";
+import "./Home.scss";
+
 import { TypeAnimation } from "react-type-animation";
+import projectState from "../../store/projectState";
 
 function Home() {
-    const ref = useRef(null);
+    const refBtnContact = useRef(null);
     gsap.registerPlugin(ScrollTrigger);
-    useLayoutEffect(() => {
-        let ctx = gsap.context(() => {
-            // use scoped selectors
-            gsap.from("#start", {
-                scrollTrigger: {
-                    trigger: "#start",
-                    start: " 50% 50%",
-                    end: "+=100%",
-                    onLeave: () => {
-                        document.querySelector(".start").classList.remove("active");
-                    },
-                    onEnterBack: () => {
-                        document.querySelector(".start").classList.add("active");
-                    },
-                },
-            });
-            gsap.from("#about", {
-                scrollTrigger: {
-                    trigger: "#about",
-                    start: " top 50%",
-                    end: "+=100%",
-                    onLeave: () => {
-                        document.querySelector(".about").classList.remove("active");
-                    },
-                    onLeaveBack: () => {
-                        document.querySelector(".about").classList.remove("active");
-                    },
-                    onEnter: () => {
-                        document.querySelector(".about").classList.add("active");
-                    },
-                    onEnterBack: () => {
-                        document.querySelector(".about").classList.add("active");
-                    },
-                },
-            });
-            gsap.from("#projects", {
-                scrollTrigger: {
-                    trigger: "#projects",
-                    start: " top 50%",
-                    end: "bottom bottom",
-                    onLeave: () => {
-                        document.querySelector(".projects").classList.remove("active");
-                    },
-                    onLeaveBack: () => {
-                        document.querySelector(".projects").classList.remove("active");
-                    },
-                    onEnter: () => {
-                        document.querySelector(".projects").classList.add("active");
-                    },
-                    onEnterBack: () => {
-                        document.querySelector(".projects").classList.add("active");
-                    },
-                },
-            });
-            gsap.from("#contact", {
-                scrollTrigger: {
-                    trigger: "#contact",
-                    start: " bottom 20%",
-                    end: "bottom bottom",
 
-                    onLeaveBack: () => {
-                        document.querySelector(".contact").classList.remove("active");
-                    },
-                    onEnter: () => {
-                        document.querySelector(".contact").classList.add("active");
-                    },
-                },
-            });
-        }, ref);
-        return () => ctx.revert();
-    }, []);
     const navigate = useNavigate();
     const [contact, setContact] = useState(false);
     const [projectData, setProjectData] = useRecoilState(projectState);
-    const [sortOrder, setSortOrder] = useState("true");
-
-    const handleSort = () => {
-        setSortOrder(!sortOrder);
-        const newList = [...projectData.list];
-        if (sortOrder == true) {
-            newList.sort((a, b) => a.name.localeCompare(b.name));
-        } else {
-            newList.sort((a, b) => b.name.localeCompare(a.name));
-        }
-        let newprojectData = { ...projectData };
-        newprojectData.list = newList;
-        setProjectData(newprojectData);
-    };
-
     const storeToLocalStorage = (key, value) => {
         localStorage.setItem("selected", JSON.stringify(value));
     };
 
-    const handleClick = (item) => {
-        const newprojectData = { ...projectData };
-        navigate(`/detail`);
-        console.log("item", item);
+    const toDetail = (item) => {
+        // const newprojectData = { ...projectData };
+        setTimeout(() => {
+            navigate(`/detail`);
+        }, 300);
         storeToLocalStorage("selected", item);
+    };
+    const toStore = (cate) => {
+        setTimeout(() => {
+            navigate(cate);
+        }, 300);
     };
     const handleContacttoggle = () => {
         setContact(!contact);
@@ -141,70 +64,270 @@ function Home() {
     useEffect(() => {
         window.addEventListener("scroll", getOffset);
     }, []);
+
+    const handleClickOutside = (event) => {
+        if (refBtnContact.current && !refBtnContact.current.contains(event.target)) {
+            setContact(false);
+        }
+    };
+
+    const { scrollYProgress } = useScroll();
+    const scale = useTransform(scrollYProgress, [0, 0.2], [1, 1.5]);
+    const rotate = useTransform(scrollYProgress, [0, 0.5], [0, 90]);
+    const background = useTransform(scrollYProgress, [0.2, 0.5, 1], ["#1a1527", "#0e0c16", "#1a1527"]);
+    const blockParent = {
+        from: {
+            opacity: 0,
+        },
+        to: {
+            opacity: 1,
+            transition: {
+                when: "beforeChildren",
+                staggerChildren: 0.1,
+                delay: 0.6,
+            },
+        },
+    };
+    const fadeInUpItem = {
+        from: {
+            y: 40,
+            opacity: 0,
+            scale: 0.9,
+        },
+        whileInView: {
+            scale: 1,
+            y: 0,
+            opacity: 1,
+        },
+    };
+
+    const propjectTypeVariants = {
+        from: {
+            opacity: 0,
+            y: "30%",
+        },
+        whileInView: {
+            opacity: 1,
+            y: "0%",
+            transition: {
+                delay: 0.5,
+
+                type: "spring",
+                stiffness: 150,
+            },
+        },
+    };
+
+    const timelineVariants = {
+        from: {
+            opacity: 0.5,
+            backgroundColor: "#000",
+        },
+        to: {
+            opacity: 1,
+            width: [0, 600, 550, 600, 1],
+            height: [0, 1000],
+            backgroundColor: ["#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#fca311"],
+            transition: {
+                duration: 2,
+                delay: 0.5,
+            },
+        },
+    };
+    const pageVariants = {
+        from: {
+            opacity: 0,
+            y: 40,
+        },
+        to: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.5,
+            },
+        },
+        exit: {
+            opacity: 0,
+            transition: {
+                duration: 0.5,
+            },
+        },
+    };
+    const [sectionIndex, setSectionIndex] = useState(0);
+
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    const sectionStart = useRef(null);
+    const sectionAbout = useRef(null);
+    const sectionProjects = useRef(null);
+    const isInViewStart = useInView(sectionStart, {});
+    const isInViewAbout = useInView(sectionAbout, {
+        amount: 0.1,
+    });
+
+    const isInViewProjects = useInView(sectionProjects, {
+        amount: 0.1,
+    });
+
+    useEffect(() => {
+        if (isInViewAbout) {
+            setSectionIndex(1);
+            // console.log("about", isInViewAbout);
+        } else if (isInViewProjects) {
+            setSectionIndex(2);
+            // console.log("project", isInViewProjects);
+        } else if (isInViewStart) {
+            setSectionIndex(0);
+        }
+        // console.log(sectionIndex);
+    }, [isInViewStart, isInViewAbout, isInViewProjects]);
+    const contactsetindex = (i) => {
+        setSectionIndex(i);
+    };
     return (
-        <motion.div
-            inherit={{
-                opacity: 0,
-            }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.1 } }}
-        >
-            {/* <div className="sort" onClick={() => handleSort()}>
-                sort
-            </div> */}
-            <Menu />
-            <div className="page home" ref={ref}>
-                <section id="start">
+        <>
+            <Menu sectionIndex={sectionIndex} />
+            <motion.div className="page home" variants={pageVariants} initial="from" animate="to" exit="exit">
+                <section id="start" ref={sectionStart}>
                     <div className="content-w size-md">
                         <div className="wrap">
                             <div className="block">
-                                <div className="timeline"></div>
-                                <div className="block-introduce">
+                                <motion.div
+                                    className="timeline"
+                                    variants={timelineVariants}
+                                    initial="from"
+                                    animate="to"
+                                ></motion.div>
+                                <motion.div
+                                    className="block-introduce"
+                                    variants={blockParent}
+                                    initial="from"
+                                    animate="to"
+                                >
                                     <div className="bl bl-left">
-                                        <div className="block-label">
+                                        <motion.div
+                                            className="block-label fadeInUp"
+                                            variants={fadeInUpItem}
+                                            initial="from"
+                                            whileInView="whileInView"
+                                            transition={{
+                                                delay: 1,
+                                                type: "spring",
+                                                stiffness: 120,
+                                            }}
+                                            viewport={{ once: true }}
+                                        >
                                             <span>Start</span>
-                                        </div>
-                                        <div className="block-introduce__name">
+                                        </motion.div>
+                                        <motion.div
+                                            className="block-introduce__name fadeInUp"
+                                            variants={fadeInUpItem}
+                                            initial="from"
+                                            whileInView="whileInView"
+                                            transition={{
+                                                delay: 1.2,
+                                                type: "spring",
+                                                stiffness: 120,
+                                            }}
+                                            viewport={{ once: true }}
+                                        >
                                             I am{" "}
                                             <span>
                                                 <TypeAnimation
                                                     sequence={["Tu Nguyen", 1000, "Front End Developer", 1000]}
-                                                    speed={50}
+                                                    speed={30}
                                                     repeat={Infinity}
                                                 />
                                             </span>
-                                        </div>
-                                        <div className="block-introduce__description">
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                                tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit
-                                                amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                                labore et dolore magna aliqua.
-                                            </p>
-                                        </div>
-                                        <div className="show-more">Let me show YOU something...</div>
+                                        </motion.div>
+                                        <motion.div
+                                            className="block-introduce__description fadeInUp"
+                                            variants={fadeInUpItem}
+                                            initial="from"
+                                            whileInView="whileInView"
+                                            viewport={{ once: true }}
+                                            transition={{
+                                                delay: 1.4,
+
+                                                type: "spring",
+                                                stiffness: 120,
+                                            }}
+                                        >
+                                            <p></p>
+                                        </motion.div>
+                                        <motion.div
+                                            className="show-more fadeInUp"
+                                            variants={fadeInUpItem}
+                                            initial="from"
+                                            whileInView="whileInView"
+                                            viewport={{ once: true }}
+                                            transition={{
+                                                delay: 1.6,
+                                                type: "spring",
+                                                stiffness: 120,
+                                            }}
+                                        >
+                                            Let me show YOU something...
+                                        </motion.div>
                                     </div>
-                                    <div className="bl bl-right">
-                                        <div className="glitch">
+                                    <motion.div
+                                        className="bl bl-right"
+                                        initial={{
+                                            scale: 2,
+                                            opacity: 0,
+                                        }}
+                                        animate={{
+                                            opacity: 1,
+                                            scale: 1.8,
+                                        }}
+                                        transition={{
+                                            duration: 1.5,
+                                            delay: 0.7,
+                                            ease: "backOut",
+                                        }}
+                                    >
+                                        <motion.div className="glitch" style={{ scale, rotate }}>
                                             <img src={glitch} className="main" />
                                             <img src={glitch} className="sub sub1" />
                                             <img src={glitch} className="sub sub2" />
-                                        </div>
-                                    </div>
-                                </div>
+                                        </motion.div>
+                                    </motion.div>
+                                </motion.div>
                             </div>
                         </div>
                     </div>
                 </section>
-
-                <section id="about">
+                <motion.section id="about" ref={sectionAbout}>
                     <div className="content-w size-md">
                         <div className="wrap pt-60 pb-60">
                             <div className="timeline"></div>
-                            <div className="block-label ">
+                            <motion.div
+                                className="block-label "
+                                variants={fadeInUpItem}
+                                initial="from"
+                                whileInView="whileInView"
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 120,
+                                }}
+                                viewport={{ once: true }}
+                            >
                                 <span>About</span>
-                            </div>
-                            <div className="code-wrap">
+                            </motion.div>
+                            <motion.div
+                                className="code-wrap"
+                                animate={{
+                                    opacity: [0, 1],
+                                }}
+                                transition={{
+                                    type: "spring",
+                                }}
+                            >
                                 <div className="code-line flex" data-line="01">
                                     <div className="method">class</div>
                                     <div className="propname">&nbsp;Tu Nguyen&nbsp;</div> &#123;
@@ -380,53 +503,125 @@ function Home() {
                                 <div className="code-line flex" data-line="32">
                                     &#125;
                                 </div>
-                            </div>
+                            </motion.div>
                         </div>
                     </div>
-                </section>
-                <section id="projects" className=" pb-60 ">
+                </motion.section>
+
+                <motion.section
+                    id="projects"
+                    className=" pb-60 "
+                    style={{
+                        background,
+                    }}
+                    ref={sectionProjects}
+                >
                     <div className="row">
                         <div className="content-w size-md">
                             <div className="wrap pt-60">
                                 <div className="timeline"></div>
-                                <div className="block-label ">
+                                <motion.div
+                                    className="block-label "
+                                    variants={fadeInUpItem}
+                                    initial="from"
+                                    whileInView="whileInView"
+                                    transition={{
+                                        delay: 0.5,
+                                        type: "spring",
+                                        stiffness: 120,
+                                    }}
+                                    viewport={{ once: true }}
+                                >
                                     <span>Projects</span>
-                                </div>
-                                <div className="block-description mb-60">
+                                </motion.div>
+                                <motion.div
+                                    className="block-description mb-60"
+                                    variants={fadeInUpItem}
+                                    initial="from"
+                                    whileInView="whileInView"
+                                    transition={{
+                                        delay: 0.7,
+                                        type: "spring",
+                                        stiffness: 120,
+                                    }}
+                                    viewport={{ once: true }}
+                                >
                                     <span>Landing Pages, Websites ...</span>
-                                </div>
+                                </motion.div>
                                 <div className="list-project-type right ">
-                                    <div className="wrap">
+                                    <motion.div
+                                        className="wrap"
+                                        variants={propjectTypeVariants}
+                                        initial="from"
+                                        whileInView="whileInView"
+                                        viewport={{ once: true }}
+                                    >
                                         <span>WEBSITE</span>
                                         <span>WEBSITE</span>
-                                    </div>
+                                    </motion.div>
                                 </div>
                                 <div className="list-project ">
                                     <div className="list-project-wrap list-project__webs">
                                         {projectData.list
                                             .filter((item) => item.type.includes("website"))
                                             .map((item, index) => (
-                                                <div className="item" key={item.id}>
+                                                <motion.div
+                                                    initial={{ opacity: 0, scale: 0.8 }}
+                                                    whileInView={{ opacity: 1, scale: 1 }}
+                                                    transition={{
+                                                        duration: 1,
+                                                        ease: "backOut",
+                                                        delay: index * 0.2,
+                                                    }}
+                                                    viewport={{ once: true }}
+                                                    className="item"
+                                                    key={item.id}
+                                                >
                                                     <Project
                                                         thumbImg={item.thumb}
                                                         name={item.name}
                                                         description={item.description}
                                                         timetime={item.time}
-                                                        onClick={() => handleClick(item)}
+                                                        onClick={() => toDetail(item)}
                                                     />
-                                                </div>
+                                                </motion.div>
                                             ))}
                                     </div>
+                                    {/* <motion.div
+                                        initial={{ scale: 0.8, opacity: 0 }}
+                                        whileInView={{ scale: 1, opacity: 1 }}
+                                        transition={{
+                                            duration: 0.6,
+                                            type: "spring",
+                                            stiffness: 200,
+                                            delay: 0.5,
+                                        }}
+                                        className="all-projects-btn"
+                                        viewport={{ once: true }}
+                                    >
+                                        <motion.span
+                                            whileTap={{ scale: 0.9 }}
+                                            onClick={() => toStore("/store#website")}
+                                        >
+                                            All Projects
+                                        </motion.span>
+                                    </motion.div> */}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="row">
                         <div className="list-project-type left ">
-                            <div className="wrap">
+                            <motion.div
+                                className="wrap"
+                                variants={propjectTypeVariants}
+                                initial="from"
+                                whileInView="whileInView"
+                                viewport={{ once: true }}
+                            >
                                 <span>MOBILE</span>
                                 <span>MOBILE</span>
-                            </div>
+                            </motion.div>
                         </div>
                         <div className="content-w size-md">
                             <div className="wrap">
@@ -435,28 +630,61 @@ function Home() {
                                         {projectData.list
                                             .filter((item) => item.type.includes("mobile"))
                                             .map((item, index) => (
-                                                <div className="item" key={item.id}>
+                                                <motion.div
+                                                    initial={{ opacity: 0, scale: 0.8 }}
+                                                    whileInView={{ opacity: 1, scale: 1 }}
+                                                    transition={{
+                                                        duration: 1,
+                                                        ease: "backOut",
+                                                        delay: index * 0.2,
+                                                    }}
+                                                    viewport={{ once: true }}
+                                                    className="item"
+                                                    key={item.id}
+                                                >
                                                     <Project
                                                         isMobile
                                                         thumbImg={item.thumb}
                                                         name={item.name}
                                                         description={item.description}
                                                         timetime={item.time}
-                                                        onClick={() => handleClick(item)}
+                                                        onClick={() => toDetail(item)}
                                                     />
-                                                </div>
+                                                </motion.div>
                                             ))}
                                     </div>
+                                    {/* <motion.div
+                                        initial={{ scale: 0.8, opacity: 0 }}
+                                        whileInView={{ scale: 1, opacity: 1 }}
+                                        transition={{
+                                            duration: 0.6,
+                                            type: "spring",
+                                            stiffness: 200,
+                                            delay: 0.5,
+                                        }}
+                                        viewport={{ once: true }}
+                                        className="all-projects-btn"
+                                    >
+                                        <motion.span whileTap={{ scale: 0.9 }} onClick={() => toStore("/store#mobile")}>
+                                            All Projects
+                                        </motion.span>
+                                    </motion.div> */}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="row">
+                    {/* <motion.div className="row" whileInView={() => setSectionIndex(2)}>
                         <div className="list-project-type right ">
-                            <div className="wrap">
+                            <motion.div
+                                className="wrap"
+                                variants={propjectTypeVariants}
+                                initial="from"
+                                whileInView="whileInView"
+                                viewport={{ once: true }}
+                            >
                                 <span>LANDING</span>
                                 <span>LANDING</span>
-                            </div>
+                            </motion.div>
                         </div>
                         <div className="content-w size-md">
                             <div className="wrap">
@@ -465,30 +693,85 @@ function Home() {
                                         {projectData.list
                                             .filter((item) => item.type.includes("landing"))
                                             .map((item, index) => (
-                                                <div className="item" key={item.id}>
+                                                <motion.div
+                                                    initial={{ opacity: 0, scale: 0.8 }}
+                                                    whileInView={{ opacity: 1, scale: 1 }}
+                                                    transition={{
+                                                        duration: 1,
+                                                        ease: "backOut",
+                                                        delay: index * 0.2,
+                                                    }}
+                                                    viewport={{ once: true }}
+                                                    className="item"
+                                                    key={item.id}
+                                                >
                                                     <Project
                                                         thumbImg={item.thumb}
                                                         name={item.name}
                                                         description={item.description}
                                                         timetime={item.time}
-                                                        onClick={() => handleClick(item)}
+                                                        onClick={() => toDetail(item)}
                                                     />
-                                                </div>
+                                                </motion.div>
                                             ))}
                                     </div>
+                                    <motion.div
+                                        initial={{ scale: 0.8, opacity: 0 }}
+                                        whileInView={{ scale: 1, opacity: 1 }}
+                                        viewport={{ once: true }}
+                                        transition={{
+                                            duration: 0.6,
+                                            type: "spring",
+                                            stiffness: 200,
+                                            delay: 0.5,
+                                        }}
+                                        className="all-projects-btn"
+                                    >
+                                        <motion.span
+                                            whileTap={{ scale: 0.9 }}
+                                            onClick={() => toStore("/store#landing")}
+                                        >
+                                            {" "}
+                                            All Projects
+                                        </motion.span>
+                                    </motion.div>
                                 </div>
                             </div>
                         </div>
-                    </div>{" "}
-                </section>
-                <section id="contact">
+                    </motion.div>{" "} */}
+                </motion.section>
+                <motion.section id="contact" whileInView={() => setSectionIndex(3)}>
                     <div className="content-w size-md">
                         <div className="wrap pt-60">
                             <div className="timeline"></div>
-                            <div className="block-label ">
+                            <motion.div
+                                className="block-label "
+                                variants={fadeInUpItem}
+                                initial="from"
+                                whileInView="whileInView"
+                                viewport={{ once: true }}
+                                transition={{
+                                    delay: 0.5,
+                                    type: "spring",
+                                    stiffness: 120,
+                                }}
+                            >
                                 <span>Contact</span>
-                            </div>
-                            <div className={`action ${contact ? "active" : ""}`}>
+                            </motion.div>
+                            <motion.div
+                                className={`action ${contact ? "active" : ""}`}
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                viewport={{ once: true }}
+                                whileInView={{
+                                    opacity: 1,
+                                    scale: 1,
+                                    transition: {
+                                        type: "spring",
+                                        delay: 0.7,
+                                        stiffness: 120,
+                                    },
+                                }}
+                            >
                                 <div className="button" onClick={handleContacttoggle}>
                                     Get In Touch
                                 </div>
@@ -498,12 +781,19 @@ function Home() {
                                 <a href="mailto:tu.nguyen5691@gmail.com" className="icon email">
                                     <img src={email} />
                                 </a>
-                            </div>
+                                <a
+                                    href="https://www.facebook.com/profile.php?id=100018708452183"
+                                    className="icon fb"
+                                    target="_blank"
+                                >
+                                    <img src={facebook} />
+                                </a>
+                            </motion.div>
                         </div>
                     </div>
-                </section>
-            </div>
-        </motion.div>
+                </motion.section>
+            </motion.div>
+        </>
     );
 }
 

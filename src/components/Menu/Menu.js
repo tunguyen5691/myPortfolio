@@ -1,46 +1,69 @@
-import React, { useState } from "react";
+import { color, motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
 import "./Menu.scss";
-import { Link, NavLink } from "react-router-dom";
-import Avata from "../Avata/Avata";
-import Logo from "../Logo/Logo";
-import logo from "../../assets/images/logo.png";
-import close from "../../assets/images/close.png";
-import Icon from "../Icon/Icon";
 
 const MenuItem = [
     {
         id: "start",
         label: "Start",
+        active: false,
     },
     {
         id: "about",
         label: "About",
+        active: false,
     },
     {
         id: "projects",
         label: "Projects",
+        active: false,
     },
+
     {
         id: "contact",
         label: "Contact",
+        active: false,
     },
 ];
 
-export default function Menu({ position, open, onClick }) {
-    const [active, setActive] = useState(0);
+export default function Menu({ position, open, sectionIndex }) {
+    const [active, setActive] = useState(sectionIndex);
+
+    const [menu, setMenu] = useState(MenuItem);
     const scrollToSection = (id, index) => {
         setActive(index);
         document.getElementById(id).scrollIntoView({
             behavior: "smooth",
         });
     };
+    useEffect(() => {
+        const updateMenu = menu.map((item, index) => {
+            if (index == sectionIndex) {
+                return { ...item, active: true };
+            } else {
+                return { ...item, active: false };
+            }
+        });
+        setMenu(updateMenu);
+    }, [sectionIndex]);
     return (
-        <div className={`menu ${position} ${open}`}>
+        <motion.div
+            className={`menu ${position} ${open}`}
+            initial={{
+                y: "-100%",
+            }}
+            animate={{
+                y: "0",
+            }}
+            transition={{
+                delay: 2,
+            }}
+        >
             <div className="wrapper">
                 <ul>
                     {MenuItem.map((item, index) => (
                         <li
-                            className={`${item.id} ${active == index ? "active" : ""} `}
+                            className={`${item.id}  ${menu[index].active ? "active" : ""}`}
                             key={item.id}
                             onClick={() => scrollToSection(item.id, index)}
                         >
@@ -49,6 +72,6 @@ export default function Menu({ position, open, onClick }) {
                     ))}
                 </ul>
             </div>
-        </div>
+        </motion.div>
     );
 }
