@@ -8,59 +8,15 @@ import Modal from "react-modal";
 import close from "../../assets/images/close.png";
 import "swiper/css";
 
-const imageList = [
-    {
-        id: 1,
-        img: fullImg,
-        active: false,
-    },
-    {
-        id: 2,
-        img: fullImg2,
-        active: false,
-    },
-    {
-        id: 3,
-        img: fullImg,
-        active: false,
-    },
-    {
-        id: 4,
-        img: fullImg,
-        active: false,
-    },
-    {
-        id: 5,
-        img: fullImg,
-        active: false,
-    },
-    {
-        id: 6,
-        img: fullImg,
-        active: false,
-    },
-    {
-        id: 7,
-        img: fullImg,
-        active: false,
-    },
-    {
-        id: 8,
-        img: fullImg,
-        active: false,
-    },
-];
+import projectState from "../../store/projectState";
+import { useRecoilState } from "recoil";
 
 const ProjectDetail = (props) => {
-    // const projectData = useRecoilValue(projectState);
     const navigate = useNavigate();
     const [modalIsOpen, setIsOpen] = useState(false);
-    const [getFullImg, setGetFullImg] = useState(imageList);
-
     function openModal(index) {
         setIsOpen(true);
     }
-
     function closeModal(index) {
         setIsOpen(false);
     }
@@ -69,24 +25,17 @@ const ProjectDetail = (props) => {
         const local = localStorage.getItem("selected");
         setDatadetail(JSON.parse(local));
     }, []);
+    const [fullImg, setFullImg] = useState();
+
     const selectImage = (itemId) => {
         setIsOpen(true);
-        const updatedItems = getFullImg.map((ele) => {
-            if (ele.id === itemId) {
-                return { ...ele, active: true };
-            } else {
-                return { ...ele, active: false };
+        const updatedItem = dataDetail?.gallery.find((ele) => {
+            if (ele.id == itemId) {
+                return true;
             }
         });
-        setGetFullImg(updatedItems);
-        console.log(getFullImg);
+        setFullImg(updatedItem);
     };
-
-    const activeItemId = getFullImg.find((item) => {
-        if (item.active) {
-            return item?.img;
-        }
-    });
 
     const pageVariants = {
         from: {
@@ -112,14 +61,13 @@ const ProjectDetail = (props) => {
         <>
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal} contentLabel="Example Modal">
                 <div className="modal">
-                    <button>close</button>
                     <div className="close-md" onClick={closeModal}>
                         <div className="img">
                             <img src={close} />
                         </div>
                     </div>
                     <div className="img">
-                        <img src={activeItemId?.img} />
+                        <img src={fullImg?.img} />
                     </div>
                 </div>
             </Modal>
@@ -135,21 +83,23 @@ const ProjectDetail = (props) => {
                                 </div>
                                 <div className="side-bar__body">
                                     <div className="tech-stalk">
-                                        <span>#Html</span>
-                                        <span>#jQuery</span>
-                                        <span>#Scss</span>
+                                        {dataDetail?.textstalk.map((item) => (
+                                            <span>
+                                                [<em>{item}</em>]
+                                            </span>
+                                        ))}
                                     </div>
                                     <div className="project-name">{dataDetail?.name}</div>
                                     <div className="time">{dataDetail?.time}</div>
                                     <div className="description">{dataDetail?.description}</div>
-                                    <Link className="visit-page" to={"./"} target="_blank">
+                                    <a className="visit-page" href={dataDetail?.link} target="_blank">
                                         Visit Live
-                                    </Link>
+                                    </a>
                                 </div>
                             </div>
                             <div className="bl detail">
                                 <div className="list">
-                                    {imageList.map((item, index) => (
+                                    {dataDetail?.gallery.map((item) => (
                                         <div
                                             className="item"
                                             onClick={() => selectImage(item.id)}

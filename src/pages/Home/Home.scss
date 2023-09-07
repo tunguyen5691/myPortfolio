@@ -205,7 +205,7 @@
                     position: absolute;
                     content: "";
                     height: 100%;
-                    z-index: 0;
+                    z-index: -1;
                 }
             }
             &::before {
@@ -285,6 +285,10 @@
             }
             .email {
                 left: calc(100% + 90px);
+                transform: translate(0%, -50%);
+            }
+            .fb {
+                left: calc(100% + 150px);
                 transform: translate(0%, -50%);
             }
         }
@@ -394,6 +398,7 @@
     // background-color: red;
     position: relative;
     z-index: 2;
+    min-height: 50vh;
     @media (width <= 1600px) {
         width: 120%;
         margin-left: -10%;
@@ -417,7 +422,7 @@
             padding-top: 4vw;
             @media (width > 1360px) {
                 &:nth-child(3n - 1) {
-                    padding-top: 4vw;
+                    padding-top: 6vw;
                 }
                 &:nth-child(3n) {
                     padding-top: 8vw;

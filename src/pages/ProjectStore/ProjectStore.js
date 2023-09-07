@@ -13,11 +13,6 @@ const tabData = [
         type: "website",
     },
     {
-        id: 2,
-        panel: "LANDING PAGE",
-        type: "landing",
-    },
-    {
         id: 3,
         panel: "MOBILE",
         type: "mobile",

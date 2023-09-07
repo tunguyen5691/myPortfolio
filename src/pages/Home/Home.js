@@ -7,6 +7,7 @@ import { useRecoilState } from "recoil";
 import glitch from "../../assets/images/1.jpg";
 import email from "../../assets/images/email.png";
 import phone from "../../assets/images/phone.png";
+import facebook from "../../assets/images/facebook.png";
 import Menu from "../../components/Menu/Menu";
 import Project from "../../components/Project/Project";
 
@@ -257,12 +258,7 @@ function Home() {
                                                 stiffness: 120,
                                             }}
                                         >
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                                tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit
-                                                amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                                labore et dolore magna aliqua.
-                                            </p>
+                                            <p></p>
                                         </motion.div>
                                         <motion.div
                                             className="show-more fadeInUp"
@@ -591,7 +587,7 @@ function Home() {
                                                 </motion.div>
                                             ))}
                                     </div>
-                                    <motion.div
+                                    {/* <motion.div
                                         initial={{ scale: 0.8, opacity: 0 }}
                                         whileInView={{ scale: 1, opacity: 1 }}
                                         transition={{
@@ -609,7 +605,7 @@ function Home() {
                                         >
                                             All Projects
                                         </motion.span>
-                                    </motion.div>
+                                    </motion.div> */}
                                 </div>
                             </div>
                         </div>
@@ -657,7 +653,7 @@ function Home() {
                                                 </motion.div>
                                             ))}
                                     </div>
-                                    <motion.div
+                                    {/* <motion.div
                                         initial={{ scale: 0.8, opacity: 0 }}
                                         whileInView={{ scale: 1, opacity: 1 }}
                                         transition={{
@@ -672,12 +668,12 @@ function Home() {
                                         <motion.span whileTap={{ scale: 0.9 }} onClick={() => toStore("/store#mobile")}>
                                             All Projects
                                         </motion.span>
-                                    </motion.div>
+                                    </motion.div> */}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <motion.div className="row" whileInView={() => setSectionIndex(2)}>
+                    {/* <motion.div className="row" whileInView={() => setSectionIndex(2)}>
                         <div className="list-project-type right ">
                             <motion.div
                                 className="wrap"
@@ -742,7 +738,7 @@ function Home() {
                                 </div>
                             </div>
                         </div>
-                    </motion.div>{" "}
+                    </motion.div>{" "} */}
                 </motion.section>
                 <motion.section id="contact" whileInView={() => setSectionIndex(3)}>
                     <div className="content-w size-md">
@@ -784,6 +780,13 @@ function Home() {
                                 </a>
                                 <a href="mailto:tu.nguyen5691@gmail.com" className="icon email">
                                     <img src={email} />
+                                </a>
+                                <a
+                                    href="https://www.facebook.com/profile.php?id=100018708452183"
+                                    className="icon fb"
+                                    target="_blank"
+                                >
+                                    <img src={facebook} />
                                 </a>
                             </motion.div>
                         </div>

@@ -97,9 +97,8 @@
                     span {
                         display: inline-block;
                         margin-right: 12px;
-                        font-size: 1.25em;
+                        font-size: 1em;
                         color: rgba(255, 255, 255, 0.7);
-                        text-transform: uppercase;
                     }
                 }
                 .project-name {
@@ -163,8 +162,6 @@
             padding: 0 !important;
             margin: 40px auto;
             border: NONE !important ;
-            display: flex;
-            align-items: center;
             background-color: transparent !important  ;
             .modal {
                 width: 100%;

@@ -45,7 +45,6 @@ export default function Menu({ position, open, sectionIndex }) {
             }
         });
         setMenu(updateMenu);
-        console.log(menu);
     }, [sectionIndex]);
     return (
         <motion.div
