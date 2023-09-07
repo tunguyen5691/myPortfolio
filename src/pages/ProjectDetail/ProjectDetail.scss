@@ -129,6 +129,10 @@
                     background-color: var(--color-primary);
                     transition: all ease 1s;
                     text-decoration: none;
+                    &.none {
+                        filter: grayscale(1);
+                        pointer-events: none;
+                    }
                     @media (width < 1024px) {
                         position: fixed;
                         bottom: 30px;

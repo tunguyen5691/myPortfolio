@@ -92,7 +92,11 @@ const ProjectDetail = (props) => {
                                     <div className="project-name">{dataDetail?.name}</div>
                                     <div className="time">{dataDetail?.time}</div>
                                     <div className="description">{dataDetail?.description}</div>
-                                    <a className="visit-page" href={dataDetail?.link} target="_blank">
+                                    <a
+                                        className={`visit-page ${dataDetail?.link == "" ? "none" : ""}`}
+                                        href={dataDetail?.link != "" ? dataDetail?.link : ""}
+                                        target="_blank"
+                                    >
                                         Visit Live
                                     </a>
                                 </div>

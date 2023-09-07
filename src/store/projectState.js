@@ -170,7 +170,7 @@ const projectData = atom({
                 workingDay: "4",
                 type: "website",
                 thumb: gunnyThumb,
-                link: "",
+                link: "http://173.249.13.17:2024/gunny/index.html",
                 gallery: [
                     {
                         id: 1,
@@ -187,7 +187,7 @@ const projectData = atom({
                 workingDay: "4",
                 type: "website",
                 thumb: sunThumb,
-                link: "",
+                link: "http://173.249.13.17:2024/sun/index.html",
                 gallery: [
                     {
                         id: 1,
@@ -204,7 +204,7 @@ const projectData = atom({
                 workingDay: "4",
                 type: "website",
                 thumb: phuquocThumb,
-                link: "",
+                link: "http://173.249.13.17:2024/phuquoc/index.html",
                 gallery: [
                     {
                         id: 1,
@@ -233,7 +233,7 @@ const projectData = atom({
                 workingDay: "6",
                 type: "mobile",
                 thumb: babyhubThumb,
-                link: "#!",
+                link: "",
                 gallery: [
                     {
                         id: 1,
@@ -274,7 +274,7 @@ const projectData = atom({
                 workingDay: "6",
                 type: "mobile",
                 thumb: sunlightThumb,
-                link: "#!",
+                link: "",
                 gallery: [
                     {
                         id: 1,
@@ -312,7 +312,7 @@ const projectData = atom({
                 workingDay: "20",
                 type: "mobile",
                 thumb: vysmaThumb,
-                link: "#!",
+                link: "",
                 gallery: [
                     {
                         id: 1,
@@ -349,7 +349,7 @@ const projectData = atom({
                 workingDay: "20",
                 type: "mobile",
                 thumb: sushiThumb,
-                link: "#!",
+                link: "",
                 gallery: [
                     {
                         id: 1,
