@@ -153,15 +153,13 @@
     margin: 0 auto;
 
     &.size-lg {
-        width: 90%;
-        max-width: 1600px;
+        width: 1600px;
         @media (max-width: 1360px) {
             width: 100%;
         }
     }
     &.size-md {
-        width: 80%;
-        max-width: 1200px;
+        width: 1200px;
         @media (max-width: 1360px) {
             width: 100%;
             padding: 0 20px;

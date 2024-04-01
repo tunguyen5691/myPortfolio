@@ -174,6 +174,38 @@ function Home() {
         amount: 0.1,
     });
 
+    const [position, setPosition] = useState({
+        x: 0, y: 0
+    });
+
+    const showBox = document.getElementById("showCaseBox");
+    const handleMouseMove = (event) => {
+        const { clientX, clientY } = event;
+        const { left, top } = event.target.getBoundingClientRect();
+        setPosition({ x : clientX, y: clientY});
+        console.log("left" , left)
+        console.log("clientX" ,clientX, "clientY", clientY);
+        const documentWidth = document.documentElement.clientWidth;
+        const listHeight = document.getElementById("list1").clientHeight;
+        const projectListWidth = document.getElementById("list1").clientWidth;
+        const sz_left = (documentWidth - projectListWidth) / 2;
+        const sz_right = sz_left + projectListWidth;
+        if (clientX > sz_left && clientX < sz_right) {
+            showBox.classList.add('active');
+        } else {
+            showBox.classList.remove('active');
+        }
+    };
+
+    const handleMouseOut = () => {
+        showBox.classList.add('hide');
+        console.log("out");
+    }
+    const handleMouseEnter = () => {
+        showBox.classList.remove('hide');
+        console.log("in");
+
+    }
     useEffect(() => {
         if (isInViewAbout) {
             setSectionIndex(1);
@@ -186,14 +218,15 @@ function Home() {
         }
         // console.log(sectionIndex);
     }, [isInViewStart, isInViewAbout, isInViewProjects]);
-    const contactsetindex = (i) => {
-        setSectionIndex(i);
-    };
+
+
+
     return (
         <>
             <Menu sectionIndex={sectionIndex} />
             <motion.div className="page home" variants={pageVariants} initial="from" animate="to" exit="exit">
-                <section id="start" ref={sectionStart}>
+                <section id="start"
+                    ref={sectionStart}>
                     <div className="content-w size-md">
                         <div className="wrap">
                             <div className="block">
@@ -302,7 +335,7 @@ function Home() {
                         </div>
                     </div>
                 </section>
-                <motion.section id="about" ref={sectionAbout}>
+                {/* <motion.section id="about" ref={sectionAbout}>
                     <div className="content-w size-md">
                         <div className="wrap pt-60 pb-60">
                             <div className="timeline"></div>
@@ -506,7 +539,7 @@ function Home() {
                             </motion.div>
                         </div>
                     </div>
-                </motion.section>
+                </motion.section> */}
 
                 <motion.section
                     id="projects"
@@ -515,6 +548,9 @@ function Home() {
                         background,
                     }}
                     ref={sectionProjects}
+                    onMouseMove={handleMouseMove}
+                    onMouseLeave={handleMouseOut}
+                    onMouseEnter={handleMouseEnter}
                 >
                     <div className="row">
                         <div className="content-w size-md">
@@ -534,21 +570,8 @@ function Home() {
                                 >
                                     <span>Projects</span>
                                 </motion.div>
-                                <motion.div
-                                    className="block-description mb-60"
-                                    variants={fadeInUpItem}
-                                    initial="from"
-                                    whileInView="whileInView"
-                                    transition={{
-                                        delay: 0.7,
-                                        type: "spring",
-                                        stiffness: 120,
-                                    }}
-                                    viewport={{ once: true }}
-                                >
-                                    <span>Landing Pages, Websites ...</span>
-                                </motion.div>
-                                <div className="list-project-type right ">
+
+                                <div className="list-project-type right " >
                                     <motion.div
                                         className="wrap"
                                         variants={propjectTypeVariants}
@@ -560,8 +583,43 @@ function Home() {
                                         <span>WEBSITE</span>
                                     </motion.div>
                                 </div>
-                                <div className="list-project ">
-                                    <div className="list-project-wrap list-project__webs">
+                                <div className="list-project " id="list1" >
+                                    <div className="list"
+
+                                    //  ref={this.registerDiv1}
+                                    >
+
+                                        <div className="product " >
+                                            <div
+                                                className="showCaseBox active"
+                                                id="showCaseBox"
+                                                style={{
+                                                    left: position.x + 'px',
+                                                    top: position.y + 'px',
+                                                }}
+                                            ><div className="inner"></div></div>
+                                            {projectData.list
+                                                .filter((item) => item.type.includes("website"))
+                                                .map((item, index) => (
+                                                    <motion.div
+
+                                                        className="item"
+                                                        key={item.id}
+                                                    >
+
+                                                        <div className="name">
+                                                            {item.name}
+
+                                                        </div>
+                                                        <div className="cate">
+                                                            Website
+                                                        </div>
+
+                                                    </motion.div>
+                                                ))}
+                                        </div>
+                                    </div>
+                                    {/* <div className="list-project-wrap list-project__webs">
                                         {projectData.list
                                             .filter((item) => item.type.includes("website"))
                                             .map((item, index) => (
@@ -587,7 +645,7 @@ function Home() {
                                                 </motion.div>
                                             ))}
                                     </div>
-                                    {/* <motion.div
+                                    <motion.div
                                         initial={{ scale: 0.8, opacity: 0 }}
                                         whileInView={{ scale: 1, opacity: 1 }}
                                         transition={{
@@ -610,7 +668,7 @@ function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className="row">
+                    {/* <div className="row">
                         <div className="list-project-type left ">
                             <motion.div
                                 className="wrap"
@@ -653,7 +711,7 @@ function Home() {
                                                 </motion.div>
                                             ))}
                                     </div>
-                                    {/* <motion.div
+                                    <motion.div
                                         initial={{ scale: 0.8, opacity: 0 }}
                                         whileInView={{ scale: 1, opacity: 1 }}
                                         transition={{
@@ -668,11 +726,11 @@ function Home() {
                                         <motion.span whileTap={{ scale: 0.9 }} onClick={() => toStore("/store#mobile")}>
                                             All Projects
                                         </motion.span>
-                                    </motion.div> */}
+                                    </motion.div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     {/* <motion.div className="row" whileInView={() => setSectionIndex(2)}>
                         <div className="list-project-type right ">
                             <motion.div
